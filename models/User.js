@@ -1,5 +1,8 @@
+// new sequelize model for User
+
+
 const { Model, DataTypes } = require('sequelize');
-const { publicDb, privateDb } = require('../config/connection');
+const { potty_party_db } = require('../config/connection');
 const bcrypt = require('bcrypt');
 
 class User extends Model {
@@ -54,20 +57,13 @@ const userHooks = {
 
 User.init(userFields, {
   hooks: userHooks,
-  sequelize: publicDb,
+  sequelize: potty_party_db,
   timestamps: false,
   freezeTableName: true,
   underscored: true,
   modelName: 'user',
 });
 
-const PrivateUser = User.init(userFields, {
-  hooks: userHooks,
-  sequelize: privateDb,
-  timestamps: false,
-  freezeTableName: true,
-  underscored: true,
-  modelName: 'user',
-});
 
-module.exports = { User, PrivateUser };
+
+module.exports = { User };

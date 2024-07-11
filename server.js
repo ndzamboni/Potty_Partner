@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('./config/passport');
-const sequelize = require('./config/database');
-const authRoutes = require('./routes/auth');
+const sequelize = require('./config/connection');
+const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 const dotenv = require('dotenv');
 

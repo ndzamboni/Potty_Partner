@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS private_potty_party_db;
-CREATE DATABASE private_potty_party_db;
+DROP DATABASE IF EXISTS potty_party_db;
+CREATE DATABASE potty_party_db;
 
-\c private_potty_party_db;
+\c potty_party_db;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -9,7 +9,7 @@ CREATE TABLE users (
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    isPublic BOOLEAN DEFAULT FALSE
+    isPublic BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE restrooms (
