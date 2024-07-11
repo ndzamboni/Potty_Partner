@@ -1,1 +1,1 @@
-# LoLCompanionApp
+# Potty Partner
