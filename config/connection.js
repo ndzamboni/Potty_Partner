@@ -1,16 +1,24 @@
-const Sequelize = require('sequelize');
-require('dotenv').config();
+const { Sequelize } = require('sequelize');
+const config = require('./config');
 
-const sequelize = process.env.DB_URL
-  ? new Sequelize(process.env.DB_URL)
-  : new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: 'localhost',
-      dialect: 'postgres',
-    }
-  );
+const publicDb = new Sequelize(
+  config.publicDb.database,
+  config.publicDb.username,
+  config.publicDb.password,
+  {
+    host: config.publicDb.host,
+    dialect: config.publicDb.dialect,
+  }
+);
 
-module.exports = sequelize;
+const privateDb = new Sequelize(
+  config.privateDb.database,
+  config.privateDb.username,
+  config.privateDb.password,
+  {
+    host: config.privateDb.host,
+    dialect: config.privateDb.dialect,
+  }
+);
+
+module.exports = { publicDb, privateDb };

@@ -1,16 +1,15 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
+const { publicDb, privateDb } = require('../config/connection');
 const bcrypt = require('bcrypt');
 
 class User extends Model {
-    checkPassword(loginPw) {
-      return bcrypt.compareSync(loginPw, this.password);
-    }
-} 
+  checkPassword(loginPw) {
+    return bcrypt.compareSync(loginPw, this.password);
+  }
+}
 
-User.init( 
-  {
-    id: {
+const userFields = {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
@@ -32,26 +31,43 @@ User.init(
     type: DataTypes.STRING,
     allowNull: false,
   },
-}, {
-  hooks: {
-    beforeCreate: async (user) => {
-      if (user.password) {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-      }
-    },
-    beforeUpdate: async (user) => {
-      if (user.password) {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-      }
-    },
+  isPublic: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true, // Default to public
   },
-  sequelize,
+};
+
+const userHooks = {
+  beforeCreate: async (user) => {
+    if (user.password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+  },
+  beforeUpdate: async (user) => {
+    if (user.password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+  },
+};
+
+User.init(userFields, {
+  hooks: userHooks,
+  sequelize: publicDb,
   timestamps: false,
   freezeTableName: true,
   underscored: true,
   modelName: 'user',
 });
 
-module.exports = User;
+const PrivateUser = User.init(userFields, {
+  hooks: userHooks,
+  sequelize: privateDb,
+  timestamps: false,
+  freezeTableName: true,
+  underscored: true,
+  modelName: 'user',
+});
+
+module.exports = { User, PrivateUser };
