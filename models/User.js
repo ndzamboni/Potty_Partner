@@ -2,7 +2,7 @@
 
 
 const { Model, DataTypes } = require('sequelize');
-const { potty_party_db } = require('../config/connection');
+const { potty_partner_db } = require('../config/connection');
 const bcrypt = require('bcrypt');
 
 class User extends Model {
@@ -57,7 +57,7 @@ const userHooks = {
 
 User.init(userFields, {
   hooks: userHooks,
-  sequelize: potty_party_db,
+  sequelize: potty_partner_db,
   timestamps: false,
   freezeTableName: true,
   underscored: true,

@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS potty_party_db;
-CREATE DATABASE potty_party_db;
+DROP DATABASE IF EXISTS potty_partner_db;
+CREATE DATABASE potty_partner_db;
 
-\c potty_party_db;
+\c potty_partner_db;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
