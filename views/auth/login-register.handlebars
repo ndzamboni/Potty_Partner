@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Potty Partner - Login/Register</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .form-container {
+      position: relative;
+      width: 300px;
+      margin: 100px auto;
+    }
+    .form-container .form {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+    .form-container .form.register {
+      transform: translateX(300px);
+    }
+    .form-container.active .form.login {
+      transform: translateX(-300px);
+    }
+    .form-container.active .form.register {
+      transform: translateX(0);
+    }
+    .toggle-btn {
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <form id="login-form" class="form login" action="/auth/login" method="POST">
+      <h2>Login</h2>
+      <div class="form-group">
+        <label for="login-username">Username</label>
+        <input type="text" class="form-control" id="login-username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" class="form-control" id="login-password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+      <p class="toggle-btn" onclick="toggleForms()">Don't have an account? Register</p>
+    </form>
+
+    <form id="register-form" class="form register" action="/auth/register" method="POST">
+      <h2>Register</h2>
+      <div class="form-group">
+        <label for="register-username">Username</label>
+        <input type="text" class="form-control" id="register-username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="register-firstName">First Name</label>
+        <input type="text" class="form-control" id="register-firstName" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="register-lastName">Last Name</label>
+        <input type="text" class="form-control" id="register-lastName" name="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="register-password">Password</label>
+        <input type="password" class="form-control" id="register-password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+      <p class="toggle-btn" onclick="toggleForms()">Already have an account? Login</p>
+    </form>
+  </div>
+
+  <script>
+    function toggleForms() {
+      document.querySelector('.form-container').classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
