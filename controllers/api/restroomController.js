@@ -1,7 +1,7 @@
 // restroomController.js
 
 const axios = require('axios');
-const { User } = require('../models/User');
+const { User } = require('../../models/User');
 const dotenv = require('dotenv');
 
 dotenv.config();

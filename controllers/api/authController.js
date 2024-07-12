@@ -1,6 +1,6 @@
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const { User } = require('../models');
+const { User } = require('../../models');
 
 // Register a new user
 exports.register = async (req, res) => {

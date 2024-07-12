@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const reviewController = require('../controllers/reviewController');
+const reviewController = require('../controllers/api/reviewController');
 
 router.post('/', reviewController.createReview);
 router.get('/:restroomId', reviewController.getReviewsByRestroom);
