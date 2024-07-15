@@ -1,6 +1,3 @@
-// new sequelize model for User
-
-
 const { Model, DataTypes } = require('sequelize');
 const { potty_partner_db } = require('../config/connection');
 const bcrypt = require('bcrypt');
@@ -64,6 +61,4 @@ User.init(userFields, {
   modelName: 'user',
 });
 
-
-
-module.exports = { User };
+module.exports = User; // Correct export

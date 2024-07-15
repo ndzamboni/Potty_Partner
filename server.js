@@ -10,9 +10,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
 
-
 dotenv.config();
-
 
 const app = express();
 
@@ -20,14 +18,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: false
 }));
-
-// Set up Handlebars
-app.engine('handlebars', engine({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,15 +30,16 @@ app.use('/auth', authRoutes);
 app.use('/restrooms', restroomRoutes);
 app.use('/reviews', reviewRoutes);
 
+// Set up Handlebars
+app.engine('handlebars', engine({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
+
 app.get('/', (req, res) => {
     res.render('home');
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('*', (req, res) => {
-    res.render('home');
-});
 
 const PORT = process.env.PORT || 3001;
 
