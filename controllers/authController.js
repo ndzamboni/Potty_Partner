@@ -6,6 +6,7 @@ const Users = require('../models/Users');
 exports.register = async (req, res) => {
     try {
       const { username, firstName, lastName, password } = req.body;
+      console.log('Creating new user:', username);
   
       // Check if user already exists
       const existingUser = await Users.findOne({ where: { username } });
@@ -16,6 +17,7 @@ exports.register = async (req, res) => {
   
       // Create new user
       const newUser = await Users.create({ username, firstName, lastName, password});
+      console.log('New user created:', newUser.username);
       return res.status(201).render('user/profile', { user: newUser });
     } catch (error) {
       return res.status(500).json({ message: 'Server error' });

@@ -3,14 +3,13 @@ const Sequelize = require('sequelize');
 // Import the connection configuration
 const sequelize = require('../config/connection');
 
-const Users = require('../models/Users');
 
 module.exports = { Users, sequelize };
     
-// DO WE NEED TO CHANGE EVERYTHING TO "USERS" IN THIS FILE?
+// DO WE NEED TO CHANGE EVERYTHING TO "UsersS" IN THIS FILE?
 
 // Import all models
-const User = require('./User'); //users?
+const Users = require('./Users'); //Userss?
 const Review = require('./Review');
 const Restroom = require('./Restroom');
 const Reaction = require('./Reaction');
@@ -20,9 +19,9 @@ const Category = require('./Category');
 
 // Define model associations
 
-// A User can have many Reviews
-User.hasMany(Review, { foreignKey: 'user_id' }); //does this need to be "users_id"?
-Review.belongsTo(User, { foreignKey: 'user_id' }); //does this need to be "users_id"?
+// A Users can have many Reviews
+Users.hasMany(Review, { foreignKey: 'Users_id' }); //does this need to be "Userss_id"?
+Review.belongsTo(Users, { foreignKey: 'Users_id' }); //does this need to be "Userss_id"?
 
 // A Restroom can have many Reviews
 Restroom.hasMany(Review, { foreignKey: 'restroom_id' });
@@ -32,17 +31,17 @@ Review.belongsTo(Restroom, { foreignKey: 'restroom_id' });
 Review.hasMany(Reaction, { foreignKey: 'review_id' });
 Reaction.belongsTo(Review, { foreignKey: 'review_id' });
 
-// A User can have many Reactions
-User.hasMany(Reaction, { foreignKey: 'user_id' }); //does this need to be "users_id"?
-Reaction.belongsTo(User, { foreignKey: 'user_id' }); //does this need to be "users_id"?
+// A Users can have many Reactions
+Users.hasMany(Reaction, { foreignKey: 'Users_id' }); //does this need to be "Userss_id"?
+Reaction.belongsTo(Users, { foreignKey: 'Users_id' }); //does this need to be "Userss_id"?
 
 // A Restroom can have many Photos
 Restroom.hasMany(Photo, { foreignKey: 'restroom_id' });
 Photo.belongsTo(Restroom, { foreignKey: 'restroom_id' });
 
-// A User can have many Photos
-User.hasMany(Photo, { foreignKey: 'user_id' }); //does this need to be "users_id"?
-Photo.belongsTo(User, { foreignKey: 'user_id' }); //does this need to be "users_id"?
+// A Users can have many Photos
+Users.hasMany(Photo, { foreignKey: 'Users_id' }); //does this need to be "Userss_id"?
+Photo.belongsTo(Users, { foreignKey: 'Users_id' }); //does this need to be "Userss_id"?
 
 // A Category can have many Restrooms
 Category.hasMany(Restroom, { foreignKey: 'category_id' });
@@ -50,7 +49,7 @@ Restroom.belongsTo(Category, { foreignKey: 'category_id' });
 
 // Export models and sequelize instance
 module.exports = {
-  User, //users?
+  Users, //Userss?
   Review,
   Restroom,
   Reaction,
