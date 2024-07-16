@@ -7,20 +7,20 @@ passport.use(new LocalStrategy(
     async (username, password, done) => {
         try {
             const user = await Users.findOne({ where: { username } });
-            console.log('user: ', user);
-            console.log('username: ', username);
-            console.log('password: ', password); 
             if (!user) {
+                console.log('User not found: ', username);
                 return done(null, false, { message: 'Incorrect username.' });
             }
-            
-            const isMatch = await bcrypt.compare(password, user.password);
+        
             if (!isMatch) {
+                console.log('Password incorrect for: ', username);
                 return done(null, false, { message: 'Incorrect password.' });
             }
 
+            console.log('Login successful for: ', username);
             return done(null, user);
         } catch (err) {
+            console.log('Error during authentication: ', err);
             return done(err);
         }
     }

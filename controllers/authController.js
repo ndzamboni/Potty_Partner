@@ -10,23 +10,14 @@ exports.register = async (req, res) => {
       // Check if user already exists
       const existingUser = await Users.findOne({ where: { username } });
       if (existingUser) {
+        console.log('User already exists:', username);
         return res.status(400).json({ message: 'User already exists' });
       }
   
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
       // Create new user
-      const newUser = await Users.create({
-        username,
-        firstName,
-        lastName,
-        password: hashedPassword,
-      });
-  
+      const newUser = await Users.create({ username, firstName, lastName, password});
       return res.status(201).render('user/profile', { user: newUser });
     } catch (error) {
-      console.error('Error registering user:', error);
       return res.status(500).json({ message: 'Server error' });
     }
   };
@@ -34,19 +25,22 @@ exports.register = async (req, res) => {
 // Log in a user
 exports.login = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        
         if (err) {
+            console.error('Authentication error: ', err);
             return next(err);
         }
         if (!user) {
+            console.log('Authentication failed: ', info.message);
             return res.status(400).json({ message: 'Incorrect username or password' });
         }
         req.logIn(user, (err) => {
             if (err) {
+                console.error('Login error: ', err);
                 return next(err);
             }
+            console.log('User logged in:', user.username);
             return res.redirect('/profile');
-        });
+        });        
     })(req, res, next);
 };
 
