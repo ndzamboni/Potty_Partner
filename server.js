@@ -6,6 +6,8 @@ const { potty_partner_db } = require('./config/connection');
 const authRoutes = require('./routes/authRoutes');
 const restroomRoutes = require('./routes/restroomRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const userRoutes = require('./routes/userRoutes');
+const homeRoutes = require('./routes/homeRoutes'); 
 const path = require('path');
 const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
@@ -29,6 +31,8 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 app.use('/restrooms', restroomRoutes);
 app.use('/reviews', reviewRoutes);
+app.use('/', userRoutes);  // Make sure user routes are included
+app.use('/', homeRoutes);
 
 // Set up Handlebars
 app.engine('handlebars', engine({ defaultLayout: 'main' }));
@@ -36,7 +40,7 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', { user: req.user });
 });
 
 app.use(express.static(path.join(__dirname, 'public')));

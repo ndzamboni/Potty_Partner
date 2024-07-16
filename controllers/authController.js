@@ -1,13 +1,11 @@
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const { User } = require('../models');
-
+const User = require('../models/User');  // Ensure the correct path
 
 // Register a new user
 exports.register = async (req, res) => {
     try {
         const { username, firstName, lastName, password } = req.body;
-        console.log('Registering user:', username, firstName, lastName, password);
         
         // Check if user already exists
         const existingUser = await User.findOne({ where: { username } });
@@ -21,7 +19,7 @@ exports.register = async (req, res) => {
         // Create new user
         const newUser = await User.create({ username, firstName, lastName, password: hashedPassword });
         
-        res.status(201).render('user/profile');
+        return res.status(201).render('user/profile', { user: newUser });
     } catch (error) {
         console.error('Error registering user:', error);
         return res.status(500).json({ message: 'Server error' });
@@ -41,7 +39,7 @@ exports.login = (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            return res.json({ message: 'Logged in successfully', user });
+            return res.redirect('/profile');
         });
     })(req, res, next);
 };
