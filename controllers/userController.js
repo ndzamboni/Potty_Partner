@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { Users } = require('../models');
 
 const updateUserPrivacy = async (req, res) => {
   const { userId, isPublic } = req.body;
@@ -6,11 +6,11 @@ const updateUserPrivacy = async (req, res) => {
     if (isPublic) {
       const user = await PrivateUser.findByPk(userId);
       if (user) {
-        await User.create(user.toJSON());
+        await Users.create(user.toJSON());
         await user.destroy();
       }
     } else {
-      const user = await User.findByPk(userId);
+      const user = await Users.findByPk(userId);
       if (user) {
         await PrivateUser.create(user.toJSON());
         await user.destroy();

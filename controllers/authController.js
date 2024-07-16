@@ -1,34 +1,40 @@
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const User = require('../models/User');  // Ensure the correct path
+const Users = require('../models/Users');
 
 // Register a new user
 exports.register = async (req, res) => {
     try {
-        const { username, firstName, lastName, password } = req.body;
-        
-        // Check if user already exists
-        const existingUser = await User.findOne({ where: { username } });
-        if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-        
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
-        
-        // Create new user
-        const newUser = await User.create({ username, firstName, lastName, password: hashedPassword });
-        
-        return res.status(201).render('user/profile', { user: newUser });
+      const { username, firstName, lastName, password } = req.body;
+  
+      // Check if user already exists
+      const existingUser = await Users.findOne({ where: { username } });
+      if (existingUser) {
+        return res.status(400).json({ message: 'User already exists' });
+      }
+  
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Create new user
+      const newUser = await Users.create({
+        username,
+        firstName,
+        lastName,
+        password: hashedPassword,
+      });
+  
+      return res.status(201).render('user/profile', { user: newUser });
     } catch (error) {
-        console.error('Error registering user:', error);
-        return res.status(500).json({ message: 'Server error' });
+      console.error('Error registering user:', error);
+      return res.status(500).json({ message: 'Server error' });
     }
-};
+  };
 
 // Log in a user
 exports.login = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
+        
         if (err) {
             return next(err);
         }
