@@ -16,6 +16,7 @@ dotenv.config();
 
 const app = express();
 
+// Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -25,28 +26,33 @@ app.use(session({
     saveUninitialized: false
 }));
 
+// Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/auth', authRoutes);
-app.use('/restrooms', restroomRoutes);
-app.use('/reviews', reviewRoutes);
-app.use('/', userRoutes);  // Make sure user routes are included
-app.use('/', homeRoutes);
-
 // Set up Handlebars
-app.engine('handlebars', engine({ defaultLayout: 'main' }));
+app.engine('handlebars', engine({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
+// Static files setup
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Routes setup
+app.use('/auth', authRoutes);
+app.use('/restrooms', restroomRoutes);
+app.use('/reviews', reviewRoutes);
+app.use('/users', userRoutes); // Assuming user routes are under '/users'
+app.use('/', homeRoutes);
+
+// Home route
 app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 const PORT = process.env.PORT || 3001;
 
+// Database synchronization and server start
 potty_partner_db.sync().then(() => {
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../config/connection');
 
-const User = require('./User');
+const Users = require('../models/Users');
 
-module.exports = { User, sequelize };
+module.exports = { Users, sequelize };
     

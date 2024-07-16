@@ -1,14 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
-const { potty_partner_db } = require('../config/connection');
 const bcrypt = require('bcrypt');
+const { potty_partner_db } = require('../config/connection');
 
-class User extends Model {
+class Users extends Model {
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
 
-const userFields = {
+Users.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -33,32 +33,28 @@ const userFields = {
   },
   isPublic: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true, // Default to public
+    defaultValue: true,
   },
-};
-
-const userHooks = {
-  beforeCreate: async (user) => {
-    if (user.password) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(user.password, salt);
-    }
+}, {
+  hooks: {
+    beforeCreate: async (user) => {
+      if (user.password) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+      }
+    },
+    beforeUpdate: async (user) => {
+      if (user.changed('password')) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+      }
+    },
   },
-  beforeUpdate: async (user) => {
-    if (user.password) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(user.password, salt);
-    }
-  },
-};
-
-User.init(userFields, {
-  hooks: userHooks,
   sequelize: potty_partner_db,
   timestamps: false,
   freezeTableName: true,
-  underscored: true,
-  modelName: 'user',
+  modelName: 'users',
+  tableName: 'users',
 });
 
-module.exports = User; // Correct export
+module.exports = Users;
