@@ -16,6 +16,12 @@ dotenv.config();
 
 const app = express();
 
+// Logging middleware
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
+
 // Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set up Handlebars
-app.engine('handlebars', engine({ defaultLayout: 'main'}));
+app.engine('handlebars', engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -42,11 +48,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', authRoutes);
 app.use('/restrooms', restroomRoutes);
 app.use('/reviews', reviewRoutes);
-app.use('/users', userRoutes); // Assuming user routes are under '/users'
+app.use('/users', userRoutes);
 app.use('/', homeRoutes);
 
 // Home route
 app.get('/', (req, res) => {
+    console.log('Rendering homepage for user:', req.user);
     res.render('home', { user: req.user });
 });
 
