@@ -11,7 +11,8 @@ passport.use(new LocalStrategy(
                 console.log('User not found: ', username);
                 return done(null, false, { message: 'Incorrect username.' });
             }
-        
+
+            const isMatch = await bcrypt.compareSync(password, user.password);
             if (!isMatch) {
                 console.log('Password incorrect for: ', username);
                 return done(null, false, { message: 'Incorrect password.' });

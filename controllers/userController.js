@@ -1,4 +1,4 @@
-const { Users } = require('../models');
+const { Users } = require('../models/Users');
 
 const updateUserPrivacy = async (req, res) => {
   const { userId, isPublic } = req.body;
