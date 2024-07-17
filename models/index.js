@@ -1,14 +1,4 @@
-const Sequelize = require('sequelize');
-
-// Import the connection configuration
 const sequelize = require('../config/connection');
-
-
-module.exports = { Users, sequelize };
-    
-// DO WE NEED TO CHANGE EVERYTHING TO "UsersS" IN THIS FILE?
-
-// Import all models
 const Users = require('./Users'); //Userss?
 const Review = require('./Review');
 const Restroom = require('./Restroom');
@@ -49,7 +39,7 @@ Restroom.belongsTo(Category, { foreignKey: 'category_id' });
 
 // Export models and sequelize instance
 module.exports = {
-  Users, //Userss?
+  Users,
   Review,
   Restroom,
   Reaction,
