@@ -16,6 +16,7 @@ dotenv.config();
 
 const app = express();
 
+
 // Logging middleware
 app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
@@ -40,15 +41,16 @@ app.use(passport.session());
 app.engine('handlebars', engine({
     defaultLayout: 'main',
     runtimeOptions: {
-      allowProtoPropertiesByDefault: true,
-      allowProtoMethodsByDefault: true,
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
     }
-  }));
-  app.set('view engine', 'handlebars');
-  app.set('views', path.join(__dirname, 'views'));
+}));
+app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
 
 // Static files setup
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Routes setup
 app.use('/auth', authRoutes);
