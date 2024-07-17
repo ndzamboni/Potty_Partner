@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
       // Create new user
       const newUser = await Users.create({ username, firstName, lastName, password});
       console.log('New user created:', newUser.username);
-      return res.status(201).render('/user/profile', { user: newUser });
+      return res.status(201).redirect('login', { user: newUser });
     } catch (error) {
       return res.status(500).json({ message: 'Server error' });
     }
