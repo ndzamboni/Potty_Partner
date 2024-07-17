@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
       // Create new user
       const newUser = await Users.create({ username, firstName, lastName, password});
       console.log('New user created:', newUser.username);
-      return res.status(201).render('user/profile', { user: newUser });
+      return res.status(201).render('/user/profile', { user: newUser });
     } catch (error) {
       return res.status(500).json({ message: 'Server error' });
     }
@@ -41,7 +41,7 @@ exports.login = (req, res, next) => {
                 return next(err);
             }
             console.log('User logged in:', user.username);
-            return res.redirect('/profile');
+            return res.redirect('/users/profile');
         });        
     })(req, res, next);
 };
