@@ -1,8 +1,15 @@
 {{header}}
-{{#each Restroom}}
-  <div class="result">
-    <h2>{{title}}</h2>
-    <p>{{description}}</p>
+
+<div class="container mt-4">
+  <h1 class="text-center">Search Results</h1>
+  <div id="search-results">
+    {{#each searchResults}}
+      <div class="result">
+        <h2>{{name}}</h2>
+        <p>{{formatted_address}}</p>
+      </div>
+    {{/each}}
   </div>
-{{/each}}
+</div>
+
 {{footer}}
