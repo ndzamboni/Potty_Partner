@@ -1,0 +1,12 @@
+{{> header}}
+
+<h1>{{searchResult.name}}</h1>
+<p>{{searchResult.address}}</p>
+<h2>Reviews</h2>
+<ul>
+  {{#each reviews}}
+    <li>{{this.content}} - <strong>{{this.User.username}}</strong></li>
+  {{/each}}
+</ul>
+
+{{> footer}}

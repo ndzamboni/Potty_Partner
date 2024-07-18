@@ -11,6 +11,7 @@ const homeRoutes = require('./routes/homeRoutes');
 const path = require('path');
 const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
+const { Users, Restroom, Review } = require('./models');
 
 dotenv.config();
 
