@@ -33,7 +33,7 @@ exports.getPlace = async (req, res) => {
     });
 
     console.log(`Search results from DB: ${JSON.stringify(searchResults)}`);
-    res.render('searchResults', { searchResults });
+    res.render('searchResults', { searchResults, user: req.user });
   } catch (error) {
     console.error('Error searching for place:', error);
     res.status(500).json({ error: 'An error occurred while searching for the place.' });

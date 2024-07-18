@@ -59,7 +59,7 @@ exports.getReviewsAndInfoById = async (req, res) => {
     });
     console.log(`Reviews query result: ${JSON.stringify(reviews)}`);
 
-    res.render('reviews/list', { searchResult: restroom, reviews });
+    res.render('reviews/list', { searchResult: restroom, reviews, user: req.user });
   } catch (error) {
     console.error('Error fetching reviews:', error.message, error.stack);
     return res.status(500).json({ message: 'Server error', error: error.message });
