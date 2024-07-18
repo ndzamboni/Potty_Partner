@@ -53,6 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Routes setup
+console.log('Setting up routes');
 app.use('/auth', authRoutes);
 app.use('/restrooms', restroomRoutes);
 app.use('/reviews', reviewRoutes);

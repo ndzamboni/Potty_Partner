@@ -1,37 +1,27 @@
-// restroomController.js
-
-const axios = require('axios');
-const { Users } = require('../models/Users');
+const { searchPlaceByQuery } = require('../utils/searchHelper');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
-const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
+exports.getPlace = async (req, res) => {
+  const placeQuery = req.query.q; // Assuming 'q' is passed as a query parameter
+  try {
+    const placeData = await searchPlaceByQuery(placeQuery);
+    console.log(placeData);
+    res.render('searchResults', { searchResults: placeData }); // Render the Handlebars template with search results
+  } catch (error) {
+    console.error("Error searching for place:", error);
+    res.status(500).json({ error: 'An error occurred while searching for the place.' });
+  }
+};
 
-// Get restrooms near a location
-exports.getRestroomsNearby = async (req, res) => {
-    try {
-        const { latitude, longitude } = req.query;
-        
-        if (!latitude || !longitude) {
-            return res.status(400).json({ message: 'Latitude and longitude are required' });
-        }
-
-        const response = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
-            params: {
-                location: `${latitude},${longitude}`,
-                radius: 5000, // Adjust the radius as needed
-                type: 'restaurant', // or any other place type
-                keyword: 'restroom',
-                key: GOOGLE_PLACES_API_KEY
-            }
-        });
-
-        const restrooms = response.data.results;
-
-        return res.json({ restrooms });
-    } catch (error) {
-        console.error('Error fetching restrooms:', error);
-        return res.status(500).json({ message: 'Server error' });
-    }
+exports.getNearby = async (req, res) => {
+  const { lat, lon } = req.query; // Assuming 'lat' and 'lon' are passed as query parameters
+  try {
+    const nearbyPlaces = await searchNearbyPlaces(lat, lon);
+    res.json(nearbyPlaces); // Return nearby places as JSON response
+  } catch (error) {
+    console.error("Error searching for nearby places:", error);
+    res.status(500).json({ error: 'An error occurred while searching for nearby places.' });
+  }
 };
