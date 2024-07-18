@@ -1,15 +1,21 @@
-{{header}}
+{{> header}}
 
 <div class="container mt-4">
   <h1 class="text-center">Search Results</h1>
   <div id="search-results">
     {{#each searchResults}}
-      <div class="result">
-        <h2>{{name}}</h2>
-        <p>{{formatted_address}}</p>
-      </div>
+     <li>
+      <a href="/reviews/{{this.id}}">{{this.name}}</a>
+      <p>{{this.address}}</p>
+    </li>
     {{/each}}
   </div>
 </div>
 
-{{footer}}
+<script>
+  Handlebars.registerHelper('json', function(context) {
+    return JSON.stringify(context, null, 2);
+  });
+</script>
+
+{{> footer}}

@@ -1,3 +1,4 @@
+// Description: Main entry point for the application. Sets up the server, middleware, and routes.
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -11,6 +12,7 @@ const homeRoutes = require('./routes/homeRoutes');
 const path = require('path');
 const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
+const { Users, Restroom, Review } = require('./models');
 
 dotenv.config();
 
