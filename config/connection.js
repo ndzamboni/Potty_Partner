@@ -1,17 +1,15 @@
 const { Sequelize } = require('sequelize');
-const dotenv = require('dotenv');
-const config = require('./config');
+const { databaseConfig } = require('./config');
 
-dotenv.config();
+const sequelize = new Sequelize(databaseConfig.url, databaseConfig.options);
 
-const potty_partner_db = new Sequelize(
-  config.potty_partner_db.database,
-  config.potty_partner_db.username,
-  config.potty_partner_db.password,
-  {
-    host: config.potty_partner_db.host,
-    dialect: config.potty_partner_db.dialect,
+const connectToDatabase = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
   }
-);
+};
 
-module.exports = { potty_partner_db };
+module.exports = { sequelize, connectToDatabase };

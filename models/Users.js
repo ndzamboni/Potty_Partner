@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const { potty_partner_db } = require('../config/connection');
+const { sequelize } = require('../config/connection');
 
 class Users extends Model {
   checkPassword(loginPw) {
@@ -50,7 +50,7 @@ Users.init({
       }
     },
   },
-  sequelize: potty_partner_db,
+  sequelize,
   timestamps: false,
   freezeTableName: true,
   modelName: 'users',

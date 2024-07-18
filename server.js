@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('./config/passport');
-const { potty_partner_db } = require('./config/connection');
+const { sequelize } = require('./config/connection');
 const authRoutes = require('./routes/authRoutes');
 const restroomRoutes = require('./routes/restroomRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
@@ -68,7 +68,7 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3001;
 
 // Database synchronization and server start
-potty_partner_db.sync().then(() => {
+sequelize.sync().then(() => {
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });

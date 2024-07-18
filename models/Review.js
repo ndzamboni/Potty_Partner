@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const User = require('./Users');
-const Restroom = require('./Restroom');
+const Restroom = require('./Restrooms');
 
 class Review extends Model {}
 
