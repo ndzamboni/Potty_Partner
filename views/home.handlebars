@@ -1,34 +1,39 @@
-{{> header}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Potty Partner</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  {{> header}}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">Find Nearby Restrooms</h1>
+        <form id="search-form" class="form-inline justify-content-center my-4" action="/restrooms/searchResults" method="GET">
+          <input type="text" class="form-control mr-2" name="q" id="location-input" placeholder="Enter your location">
+          <button id="search-button" type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+    </div>
 
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-md-12">
-      <h1 class="text-center">Find Nearby Restrooms</h1>
-      <form id="search-form" class="form-inline justify-content-center my-4" action="/restrooms/searchResults" method="GET">
-        <input type="text" class="form-control mr-2" name="q" id="location-input" placeholder="Enter your location">
-        <button id="search-button" type="submit" class="btn btn-primary">Search</button>
-      </form>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="map" style="height: 500px;"></div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-12 text-center">
+        <a href="/auth/login" class="btn btn-secondary mr-2">Login</a>
+        <a href="/auth/register" class="btn btn-secondary">Register</a>
+      </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <div id="map" style="height: 500px;"></div>
-    </div>
-  </div>
-
-  <div class="row mt-4">
-    <div class="col-md-12 text-center">
-      <a href="/auth/login" class="btn btn-secondary mr-2">Login</a>
-      <a href="/auth/register" class="btn btn-secondary">Register</a>
-    </div>
-  </div>
-</div>
-
-<script>
-  document.getElementById('search-form').addEventListener('submit', function(event) {
-    console.log('Form action:', this.action);
-  });
-</script>
-
-{{> footer}}
+  {{> footer}}
+</body>
+</html>
