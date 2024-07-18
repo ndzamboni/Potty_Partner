@@ -3,3 +3,32 @@
     border-radius: 8px;
   }
   
+
+  body {
+    background-color: #05172F;
+    color: #ffffff; /* Optional: to ensure text is readable */
+  }
+  
+
+  header, footer {
+    background-color: #9FC0CB;
+    color: #05172F; /* Optional: to ensure text is readable */
+  }
+  
+  body {
+    background-color: #05172F;
+    color: #ffffff; /* Ensure text is readable against the dark background */
+  }
+  
+  .navbar-brand img {
+    border-radius: 8px; /* Optional: Slight rounding for the logo */
+  }
+  
+  .banner-img {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 8px;
+  }
+  
+
+  
