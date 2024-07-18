@@ -1,34 +1,43 @@
+/* Regular theme */
+body {
+  background-color: #05172F;
+  color: #ffffff; /* Ensure text is readable against the dark background */
+  transition: background-color 0.5s ease, color 0.5s ease; /* Add transition for smooth effect */
+}
+
+header, footer {
+  background-color: #9FC0CB;
+  color: #05172F; /* Ensure text is readable against the background */
+  transition: background-color 0.5s ease, color 0.5s ease; /* Add transition for smooth effect */
+}
+
 .navbar-brand img {
-    height: 40px;
-    border-radius: 8px;
-  }
-  
+  height: 40px;
+  border-radius: 8px;
+}
 
-  body {
-    background-color: #05172F;
-    color: #ffffff; /* Optional: to ensure text is readable */
-  }
-  
+/* Brown theme */
+body.brown-mode {
+  background-color: #5A3E36;
+  color: #f0e6d2;
+}
 
-  header, footer {
-    background-color: #9FC0CB;
-    color: #05172F; /* Optional: to ensure text is readable */
-  }
-  
-  body {
-    background-color: #05172F;
-    color: #ffffff; /* Ensure text is readable against the dark background */
-  }
-  
-  .navbar-brand img {
-    border-radius: 8px; /* Optional: Slight rounding for the logo */
-  }
-  
-  .banner-img {
-    width: 100%;
-    max-width: 800px;
-    border-radius: 8px;
-  }
-  
+body.brown-mode header, body.brown-mode footer {
+  background-color: #8B5E3C;
+  color: #f0e6d2;
+}
 
-  
+body.brown-mode p, body.brown-mode h1, body.brown-mode h2, body.brown-mode h3, body.brown-mode h4, body.brown-mode h5, body.brown-mode h6, body.brown-mode a {
+  color: #f0e6d2; /* Ensure all text is readable in brown mode */
+}
+
+/* Additional styles for Bootstrap components in brown mode */
+body.brown-mode .navbar, body.brown-mode .navbar-brand, body.brown-mode .nav-link, body.brown-mode .btn {
+  color: #f0e6d2;
+}
+
+body.brown-mode .btn-secondary {
+  background-color: #8B5E3C;
+  border-color: #8B5E3C;
+  color: #f0e6d2;
+}
