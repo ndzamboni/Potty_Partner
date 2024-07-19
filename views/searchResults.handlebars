@@ -3,12 +3,16 @@
 <div class="container mt-4">
   <h1 class="text-center">Search Results</h1>
   <div id="search-results">
+    <ul class="list-unstyled">
     {{#each searchResults}}
      <li>
+      <img src={{this.icon}}></img>
       <a href="/reviews/{{this.id}}">{{this.name}}</a>
       <p>{{this.address}}</p>
-    </li>
+      <p>{{this.map}}</p>
+    </li> 
     {{/each}}
+    </ul>
   </div>
 </div>
 
