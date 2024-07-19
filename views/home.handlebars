@@ -32,13 +32,16 @@
       </div>
     </div>
 
-    <div class="row mt-4">
-      <div class="col-md-12 text-center">
-        <a href="/auth/login" class="btn btn-secondary mr-2">Login</a>
-        <a href="/auth/register" class="btn btn-secondary">Register</a>
+    {{#unless user}}
+      <div class="row mt-4">
+        <div class="col-md-12 text-center">
+          <a href="/auth/login" class="btn btn-secondary mr-2">Login</a>
+          <a href="/auth/register" class="btn btn-secondary">Register</a>
+        </div>
       </div>
-    </div>
+    {{/unless}}
   </div>
+    
   {{> footer}}
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>

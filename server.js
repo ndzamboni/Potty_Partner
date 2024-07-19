@@ -14,6 +14,7 @@ const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
 const methodOverride = require('method-override');
 const Handlebars = require('handlebars');
+const { registerHelpers } = require('./utils/handlebarsHelpers');
 
 dotenv.config();
 
@@ -41,9 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set up Handlebars
-Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
-  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-});
+registerHelpers();
 
 app.engine('handlebars', engine({
     defaultLayout: 'main',
