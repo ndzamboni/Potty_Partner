@@ -9,15 +9,21 @@
       {{this.content}} - <strong>{{this.User.username}}</strong>
       <ul>
         {{#each this.Comments}}
-          <li>{{this.content}} - <strong>{{this.User.username}}</strong></li>
+          <li>
+            {{this.content}} - <strong>{{this.User.username}}</strong>
+            {{#if ../../user}}
+              {{#ifEquals this.user_id ../../user.id}}
+                <form action="/comments/{{this.id}}" method="POST" class="delete-form">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit">Delete Comment</button>
+                </form>
+              {{/ifEquals}}
+            {{/if}}
+          </li>
         {{/each}}
       </ul>
       {{#if ../user}}
-        <form action="/comments" method="POST">
-          <input type="hidden" name="reviewId" value="{{this.id}}">
-          <textarea name="content" rows="2" required></textarea>
-          <button type="submit">Add Comment</button>
-        </form>
+        <a href="/comments/new/{{this.id}}" class="btn btn-secondary">Add Comment</a>
         {{#ifEquals this.user_id ../user.id}}
           <form action="/reviews/{{this.id}}" method="POST" class="delete-form">
             <input type="hidden" name="_method" value="DELETE">

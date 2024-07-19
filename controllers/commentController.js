@@ -17,6 +17,11 @@ exports.createComment = async (req, res) => {
   }
 };
 
+exports.newCommentForm = (req, res) => {
+  const { reviewId } = req.params;
+  res.render('comments/new', { reviewId, user: req.user });
+};
+
 exports.getCommentsByReviewId = async (req, res) => {
   try {
     const { reviewId } = req.params;
