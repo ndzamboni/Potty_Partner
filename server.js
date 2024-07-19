@@ -1,4 +1,3 @@
-// Description: Main entry point for the application. Sets up the server, middleware, and routes.
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -8,16 +7,17 @@ const authRoutes = require('./routes/authRoutes');
 const restroomRoutes = require('./routes/restroomRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 const homeRoutes = require('./routes/homeRoutes'); 
 const path = require('path');
 const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
 const { Users, Restroom, Review } = require('./models');
+const methodOverride = require('method-override');
 
 dotenv.config();
 
 const app = express();
-
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 // Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret',
@@ -60,6 +61,7 @@ app.use('/auth', authRoutes);
 app.use('/restrooms', restroomRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/users', userRoutes);
+app.use('/comments', commentRoutes);
 app.use('/', homeRoutes);
 
 // Home route
