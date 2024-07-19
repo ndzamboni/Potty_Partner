@@ -1,5 +1,5 @@
 const { Client } = require("@googlemaps/google-maps-services-js");
-const { Restroom } = require('../models/Restroom');
+const { Restroom } = require('../models'); // Correct import
 require('dotenv').config();
 
 const client = new Client({});

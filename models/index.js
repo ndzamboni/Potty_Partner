@@ -2,6 +2,8 @@ const { sequelize }= require('../config/connection');
 const Users = require('./Users');
 const Review = require('./Review');
 const Restroom = require('./Restroom');
+const Comment = require('./Comment');
+
 // const Reaction = require('./Reaction');
 // const Photo = require('./Photo');
 // const Emoji = require('./Emoji');
@@ -16,6 +18,14 @@ Review.belongsTo(Users, { foreignKey: 'user_id' });
 // A Restroom can have many Reviews
 Restroom.hasMany(Review, { foreignKey: 'restroom_id' });
 Review.belongsTo(Restroom, { foreignKey: 'restroom_id' });
+
+// A Review can have many Comments
+Review.hasMany(Comment, { foreignKey: 'review_id' });
+Comment.belongsTo(Review, { foreignKey: 'review_id' });
+
+// A User can have many Comments
+Users.hasMany(Comment, { foreignKey: 'user_id' });
+Comment.belongsTo(Users, { foreignKey: 'user_id' });
 
 // A Review can have many Reactions
 // Review.hasMany(Reaction, { foreignKey: 'review_id' });
@@ -43,9 +53,6 @@ module.exports = {
   Users,
   Review,
   Restroom,
-  // Reaction,
-  // Photo,
-  // Emoji,
-  // Category,
+  Comment,
   sequelize,
 };
