@@ -10,7 +10,8 @@ exports.createComment = async (req, res) => {
       content: content,
     });
 
-    return res.status(201).json({ message: 'Comment created successfully', comment: newComment });
+    return res.render('reviews/list', { comments: [newComment], user: req.user });
+    // return res.status(201).json({ message: 'Comment created successfully', comment: newComment });
   } catch (error) {
     console.error('Error creating comment:', error);
     return res.status(500).json({ message: 'Server error' });
