@@ -3,7 +3,8 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 router.get('/login', (req, res) => {
-    res.render('auth/login');
+    const message = req.query.message || null;
+    res.render('auth/login', { message });
 });
 
 router.get('/register', (req, res) => {

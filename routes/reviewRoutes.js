@@ -6,7 +6,7 @@ const isAuthenticated = require('../middleware/auth');
 
 router.post('/', isAuthenticated, reviewController.createReview);
 // router.post('/', reviewController.createReview);
-router.get('/:id', reviewController.getReviewsAndInfoById);
+router.get('/:id', isAuthenticated, reviewController.getReviewsAndInfoById);
 // router.put('/:reviewId', reviewController.updateReview);
 router.delete('/:reviewId', isAuthenticated, reviewController.deleteReview);
 
