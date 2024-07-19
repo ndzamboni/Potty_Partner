@@ -8,6 +8,15 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <script>
+    // Apply the saved theme as early as possible to prevent flash of unstyled content
+    (function() {
+      const currentTheme = localStorage.getItem('theme') || 'regular';
+      if (currentTheme === 'brown') {
+        document.documentElement.classList.add('brown-mode');
+      }
+    })();
+  </script>
 </head>
 <body>
   {{{body}}}
