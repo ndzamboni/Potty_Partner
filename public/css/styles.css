@@ -24,8 +24,13 @@ header, footer {
 }
 
 .card {
+  min-height: 200px;
   margin: 10px;
   color: #05172F;
+}
+
+.address-line1 {
+  font-weight: bold;
 }
 
 .card-header {
@@ -79,3 +84,4 @@ body.brown-mode .card-header {
   background-color: #5A3E36;
   border-bottom: 1px solid #f0e6d2;
 }
+
