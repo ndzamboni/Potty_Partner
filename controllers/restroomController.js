@@ -1,6 +1,8 @@
 const { searchPlaceByQuery } = require('../utils/searchHelper');
 const dotenv = require('dotenv');
 const { Restroom } = require('../models');
+// const { icon } = require('leaflet');
+const { types } = require('pg');
 dotenv.config();
 
 exports.getPlace = async (req, res) => {
@@ -12,12 +14,17 @@ exports.getPlace = async (req, res) => {
 
     // Save data to Restrooms table
     for (const place of placeData) {
+      console.log('inserting info',  place.photos, place.icon, place.types); //place.open_now);
       try {
         await Restroom.findOrCreate({
           where: { place_id: place.place_id },
           defaults: {
             name: place.name,
             address: place.formatted_address,
+            // open: place.opening_hours,
+            photos: place.photos,
+            icon: place.icon,
+            types: place.types,
           }
         });
         console.log(`Inserted/Found place: ${place.name}`);
@@ -29,7 +36,7 @@ exports.getPlace = async (req, res) => {
     // Fetch updated search results from the database
     const searchResults = await Restroom.findAll({
       where: { place_id: placeData.map(place => place.place_id) },
-      attributes: ['id', 'name', 'address'] // Ensure 'id' is included
+      attributes: ['id', 'name', 'address', 'photos', 'icon', 'types'] // Ensure 'id' is included
     });
 
     console.log(`Search results from DB: ${JSON.stringify(searchResults)}`);
