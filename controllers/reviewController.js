@@ -19,7 +19,8 @@ exports.createReview = async (req, res) => {
       content: comment,
     });
 
-    return res.status(201).json({ message: 'Review created successfully', review: newReview });
+    //return res.status(201).json({ message: 'Review created successfully', review: newReview });
+    return res.render('reviews/list', { searchResult: restroom, reviews, user: req.user, message: 'Review created successfully', review: newReview  });
   } catch (error) {
     console.error('Error creating review:', error);
     return res.status(500).json({ message: 'Server error' });

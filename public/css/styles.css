@@ -16,6 +16,32 @@ header, footer {
   border-radius: 8px;
 }
 
+/* Regular Theme Card styles */
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  margin: 10px;
+  color: #05172F;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #9FC0CB;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-header img {
+  width: 30px;
+  height: 30px;
+}
+
+
 /* Brown theme */
 body.brown-mode {
   background-color: #5A3E36;
@@ -40,4 +66,16 @@ body.brown-mode .btn-secondary {
   background-color: #8B5E3C;
   border-color: #8B5E3C;
   color: #f0e6d2;
+}
+
+/* Brown Theme Card styles */
+body.brown-mode .card {
+  color: #f0e6d2;
+  background-color: #8B5E3C;
+  border-color: #f0e6d2;
+}
+
+body.brown-mode .card-header {
+  background-color: #5A3E36;
+  border-bottom: 1px solid #f0e6d2;
 }
