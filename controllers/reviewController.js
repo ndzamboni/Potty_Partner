@@ -23,15 +23,15 @@ exports.createReview = async (req, res) => {
 
     const newReview = await Review.create({
       restroom_id: restroom.id,
-      user_id: userId,
+      user_id: req.user.id,
       cleanliness: rating.cleanliness,
       accessibility: rating.accessibility,
       privacy_security: rating.privacy_security,
       convenience: rating.convenience,
-      customer_only_use: customerOnlyUse,
+      customer_only_use: customerOnlyUse ? true : false,
       content: comment,
     });
-    
+    console.log('inserted review:', newReview);
     res.render('reviews/list', { searchResult: restroom, reviews: [newReview], user: req.user, userHasReviewed: true });
 
   } catch (error) {
@@ -66,7 +66,7 @@ exports.getReviewsAndInfoById = async (req, res) => {
     if (req.user) {
       userHasReviewed = reviews.some(review => review.user_id === req.user.id);
     }
-
+    console.log ('Reviews:', reviews);
     res.render('reviews/list', { searchResult: restroom, reviews, user: req.user, userHasReviewed });
   } catch (error) {
     console.error('Error fetching reviews:', error.message, error.stack);
