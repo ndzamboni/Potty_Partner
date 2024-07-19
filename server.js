@@ -12,8 +12,8 @@ const homeRoutes = require('./routes/homeRoutes');
 const path = require('path');
 const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
-const { Users, Restroom, Review } = require('./models');
 const methodOverride = require('method-override');
+const Handlebars = require('handlebars');
 
 dotenv.config();
 
@@ -41,6 +41,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set up Handlebars
+Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
+
 app.engine('handlebars', engine({
     defaultLayout: 'main',
     runtimeOptions: {
@@ -53,7 +57,6 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Static files setup
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // Routes setup
 console.log('Setting up routes');

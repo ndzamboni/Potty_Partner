@@ -1,0 +1,13 @@
+{{#each comments}}
+  <li>
+    {{this.content}} - <strong>{{this.User.username}}</strong>
+    {{#if ../user}}
+      {{#ifEquals this.user_id ../user.id}}
+        <form action="/comments/{{this.id}}" method="POST" class="delete-form">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit">Delete Comment</button>
+        </form>
+      {{/ifEquals}}
+    {{/if}}
+  </li>
+{{/each}}

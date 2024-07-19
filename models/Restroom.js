@@ -22,10 +22,6 @@ Restroom.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
-  // open: {
-  //   type: DataTypes.JSON,
-  //   allowNull: true,
-  // },
   photos: {
     type: DataTypes.JSON,
     allowNull: true,
@@ -42,7 +38,6 @@ Restroom.init({
     type: DataTypes.JSON,
     allowNull: true,
   },
-  
 }, {
   sequelize,
   timestamps: true,

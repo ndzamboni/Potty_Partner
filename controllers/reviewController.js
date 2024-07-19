@@ -3,14 +3,14 @@ const { getOrCreateRestroom } = require('../utils/getOrCreateRestroom');
 
 exports.createReview = async (req, res) => {
   try {
-    const { placeId, userId, rating, comment } = req.body;
-    const customerOnlyUse = req.body.rating.customer_only_use === 'on';
+    const { placeId, rating, comment } = req.body;
+    const customerOnlyUse = rating.customer_only_use === 'on';
 
     const restroom = await getOrCreateRestroom(placeId);
 
     const newReview = await Review.create({
       restroom_id: restroom.id,
-      user_id: userId,
+      user_id: req.user.id,
       cleanliness: rating.cleanliness,
       accessibility: rating.accessibility,
       privacy_security: rating.privacy_security,
@@ -27,7 +27,6 @@ exports.createReview = async (req, res) => {
   }
 };
 
-
 exports.getReviewsAndInfoById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -39,7 +38,7 @@ exports.getReviewsAndInfoById = async (req, res) => {
 
     const reviews = await Review.findAll({
       where: { restroom_id: id },
-      include: [{ model: Users, attributes: ['username'] }]
+      include: [{ model: Users, attributes: ['username'] }, { model: Comment, include: [Users] }]
     });
 
     res.render('reviews/list', { searchResult: restroom, reviews, user: req.user });

@@ -4,6 +4,7 @@ const commentController = require('../controllers/commentController');
 const isAuthenticated = require('../middleware/auth');
 
 router.post('/', isAuthenticated, commentController.createComment);
+router.get('/new/:reviewId', isAuthenticated, commentController.newCommentForm);
 router.get('/:reviewId', commentController.getCommentsByReviewId);
 router.delete('/:commentId', isAuthenticated, commentController.deleteComment);
 
