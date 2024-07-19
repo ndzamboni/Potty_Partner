@@ -33,6 +33,7 @@ exports.createReview = async (req, res) => {
     });
     
     res.render('reviews/list', { searchResult: restroom, reviews: [newReview], user: req.user, userHasReviewed: true });
+
   } catch (error) {
     console.error('Error creating review:', error);
     return res.status(500).json({ message: 'Server error' });

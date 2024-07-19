@@ -11,6 +11,13 @@
   {{> header}}
 
   <div class="container mt-4">
+    {{#if message}}
+      <div class="alert alert-warning" role="alert">
+        {{message}}
+      </div>
+    {{/if}}
+
+  <div class="container mt-4">
     <form id="login-form" action="/auth/login" method="POST">
       <h2>Login</h2>
       <div class="form-group">

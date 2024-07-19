@@ -14,14 +14,13 @@ exports.getPlace = async (req, res) => {
 
     // Save data to Restrooms table
     for (const place of placeData) {
-      console.log('inserting info',  place.photos, place.icon, place.types); //place.open_now);
+      console.log('inserting info',  place.photos, place.icon, place.types);
       try {
         await Restroom.findOrCreate({
           where: { place_id: place.place_id },
           defaults: {
             name: place.name,
             address: place.formatted_address,
-            // open: place.opening_hours,
             photos: place.photos,
             icon: place.icon,
             types: place.types,
@@ -40,7 +39,7 @@ exports.getPlace = async (req, res) => {
     });
 
     console.log(`Search results from DB: ${JSON.stringify(searchResults)}`);
-    res.render('searchResults', { searchResults, user: req.user });
+    res.render('home', { user: req.user, searchResults }); // Render home with results
   } catch (error) {
     console.error('Error searching for place:', error);
     res.status(500).json({ error: 'An error occurred while searching for the place.' });
