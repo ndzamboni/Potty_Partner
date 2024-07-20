@@ -1,70 +1,3 @@
-{{!-- {{> header}}
-
-<h1>{{searchResult.name}}</h1>
-<p>{{searchResult.address}}</p>
-<h2>Reviews ({{reviews.length}})</h2>
-<ul>
-  {{#each reviews}}
-    <li>
-      {{this.content}} - <strong>{{this.User.username}}</strong>
-      <ul>
-        {{#each this.Comments}}
-          <li>{{this.content}} - <strong>{{this.User.username}}</strong></li>
-        {{/each}}
-      </ul>
-      {{#if ../user}}
-        <form action="/comments" method="POST">
-          <input type="hidden" name="reviewId" value="{{this.id}}">
-          <textarea name="content" rows="2" required></textarea>
-          <button type="submit">Add Comment</button>
-        </form>
-        {{#ifEquals this.user_id ../user.id}}
-          <form action="/reviews/{{this.id}}" method="POST" class="delete-form">
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit">Delete Review</button>
-          </form>
-        {{/ifEquals}}
-      {{/if}}
-    </li>
-  {{/each}}
-</ul>
-
-<h2>Leave a Review</h2>
-{{#if userHasReviewed}}
-  <p>You have already reviewed this restroom.</p>
-{{else}}
-  <form action="/reviews" method="POST">
-    <input type="hidden" name="placeId" value="{{searchResult.place_id}}">
-    <div class="form-group">
-      <label for="rating-cleanliness">Cleanliness</label>
-      <input type="number" name="rating[cleanliness]" min="1" max="5" required>
-    </div>
-    <div class="form-group">
-      <label for="rating-accessibility">Accessibility</label>
-      <input type="number" name="rating[accessibility]" min="1" max="5" required>
-    </div>
-    <div class="form-group">
-      <label for="rating-privacy_security">Privacy & Security</label>
-      <input type="number" name="rating[privacy_security]" min="1" max="5" required>
-    </div>
-    <div class="form-group">
-      <label for="rating-convenience">Convenience</label>
-      <input type="number" name="rating[convenience]" min="1" max="5" required>
-    </div>
-    <div class="form-group">
-      <label for="rating-customer_only_use">Customer Only Use</label>
-      <input type="checkbox" name="rating[customer_only_use]">
-    </div>
-    <div class="form-group">
-      <label for="comment">Comment</label>
-      <textarea name="comment" rows="4"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit Review</button>
-  </form>
-{{/if}}
-
-{{> footer}} --}}
-
 {{> header}}
 
 <div class="container mt-4">
@@ -85,8 +18,7 @@
       
       {{#if ../user}}
         {{#ifEquals this.user_id ../user.id}}
-          <form action="/reviews/{{this.id}}" method="POST" class="delete-form">
-            <input type="hidden" name="_method" value="DELETE">
+          <form action="/reviews/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
             <button type="submit" class="btn btn-danger float-right">Delete Review</button>
           </form>
         {{/ifEquals}}
@@ -102,8 +34,7 @@
       {{this.content}} - <strong>{{this.User.username}}</strong>
       {{#if ../user}}
         {{#ifEquals this.user_id ../user.id}}
-          <form action="/comments/{{this.id}}" method="POST" class="delete-form">
-            <input type="hidden" name="_method" value="DELETE">
+          <form action="/comments/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
             <button type="submit" class="btn btn-danger float-right">Delete Comment</button>
           </form>
         {{/ifEquals}}
@@ -132,7 +63,7 @@
       </div>
       <div class="modal-body text-dark">
         <form action="/reviews" method="POST">
-          <input type="hidden" name="placeId" value="{{searchResult.place_id}}">
+          <input type="hidden" name="placeId" value="{{this.restroom.place_id}}">
           <div class="form-group">
             <label for="rating-cleanliness">Cleanliness</label>
             <div class="rating">
@@ -188,7 +119,6 @@
   </div>
 </div>
 
-
 <script>
   $(document).ready(function(){
     $('#show-review-form').on('click', function() {
@@ -196,5 +126,13 @@
     });
   });
 </script>
+
+{{!-- <script> document.getElementById('search-form').addEventListener('submit', function(event) { event.preventDefault(); const formData = new FormData(this); const data = {}; formData.forEach((value, key) => { data[key] = value; }); console.log('Form Data:', data); this.submit(); }); </script> --}}
+
+
+
+
+
+
 
 {{> footer}}

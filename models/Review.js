@@ -55,4 +55,7 @@ Review.init({
   modelName: 'Review',
 });
 
+Review.belongsTo(Users, { foreignKey: 'user_id' });
+Review.belongsTo(Restroom, { foreignKey: 'restroom_id' });
+
 module.exports = Review;
