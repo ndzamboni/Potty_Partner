@@ -1,8 +1,8 @@
 {{> header}}
 
 <div class="container mt-4">
-  <h1 class="text-center">{{restroom.name}}</h1>
-  <p>{{restroom.address}}</p>
+  <h1 class="text-center">{{searchResult.name}}</h1>
+  <p>{{searchResult.address}}</p>
 
   <h2>Reviews</h2>
   <ul class="list-unstyled">
@@ -62,7 +62,7 @@
         </button>
       </div>
       <div class="modal-body text-dark">
-        <form action="/reviews" method="POST">
+        <form action="/reviews/{{searchResults.place_id}}" method="POST">
           <input type="hidden" name="placeId" value="{{searchResult.place_id}}">
           <div class="form-group">
             <label for="rating-cleanliness">Cleanliness</label>
