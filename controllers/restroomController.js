@@ -1,20 +1,31 @@
-const { searchPlaceByQuery } = require('../utils/searchHelper');
+const { searchPlaceByQuery, searchNearbyPlaces } = require('../utils/searchHelper');
 const dotenv = require('dotenv');
 const { Restroom } = require('../models');
-// const { icon } = require('leaflet');
-const { types } = require('pg');
 dotenv.config();
 
 exports.getPlace = async (req, res) => {
   const placeQuery = req.query.q; // Assuming 'q' is passed as a query parameter
+  const userLocation = req.query.location; // Assuming 'location' is passed as a query parameter
   try {
-    console.log(`Searching for place: ${placeQuery}`);
-    const placeData = await searchPlaceByQuery(placeQuery);
+    let placeData;
+
+    if (placeQuery) {
+      console.log(`Searching for place: ${placeQuery}`);
+      placeData = await searchPlaceByQuery(placeQuery);
+    } else if (userLocation) {
+      const [lat, lon] = userLocation.split(',');
+      console.log(`Searching for nearby places at: ${lat}, ${lon}`);
+      placeData = await searchNearbyPlaces(parseFloat(lat), parseFloat(lon));
+    } else {
+      console.log("No search query or location provided.");
+      return res.status(400).json({ error: 'No search query or location provided. Please provide a search location.' });
+    }
+
     console.log('Place data received:', placeData);
 
     // Save data to Restrooms table
     for (const place of placeData) {
-      console.log('inserting info',  place.photos, place.icon, place.types);
+      console.log('inserting info', place.photos, place.icon, place.types);
       try {
         await Restroom.findOrCreate({
           where: { place_id: place.place_id },
