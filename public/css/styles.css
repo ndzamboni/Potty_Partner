@@ -1,14 +1,14 @@
-/* Regular theme */
+/* Regular Theme Styles */
 body {
   background-color: #05172F;
-  color: #ffffff; /* Ensure text is readable against the dark background */
-  transition: background-color 0.5s ease, color 0.5s ease; /* Add transition for smooth effect */
+  color: #ffffff;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 header, footer {
   background-color: #9FC0CB;
-  color: #05172F; /* Ensure text is readable against the background */
-  transition: background-color 0.5s ease, color 0.5s ease; /* Add transition for smooth effect */
+  color: #05172F;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .navbar-brand img {
@@ -16,21 +16,16 @@ header, footer {
   border-radius: 8px;
 }
 
-/* Regular Theme Card styles */
-.results-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .card {
   min-height: 200px;
   margin: 10px;
   color: #05172F;
-}
-
-.address-line1 {
-  font-weight: bold;
 }
 
 .card-header {
@@ -46,43 +41,14 @@ header, footer {
   height: 30px;
 }
 
-
-/* Brown theme */
-body.brown-mode {
-  background-color: #5A3E36;
-  color: #f0e6d2;
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-body.brown-mode header, body.brown-mode footer {
-  background-color: #8B5E3C;
-  color: #f0e6d2;
-}
-
-body.brown-mode p, body.brown-mode h1, body.brown-mode h2, body.brown-mode h3, body.brown-mode h4, body.brown-mode h5, body.brown-mode h6, body.brown-mode a {
-  color: #f0e6d2; /* Ensure all text is readable in brown mode */
-}
-
-/* Additional styles for Bootstrap components in brown mode */
-body.brown-mode .navbar, body.brown-mode .navbar-brand, body.brown-mode .nav-link, body.brown-mode .btn {
-  color: #f0e6d2;
-}
-
-body.brown-mode .btn-secondary {
-  background-color: #8B5E3C;
-  border-color: #8B5E3C;
-  color: #f0e6d2;
-}
-
-/* Brown Theme Card styles */
-body.brown-mode .card {
-  color: #f0e6d2;
-  background-color: #8B5E3C;
-  border-color: #f0e6d2;
-}
-
-body.brown-mode .card-header {
-  background-color: #5A3E36;
-  border-bottom: 1px solid #f0e6d2;
+.address-line1 {
+  font-weight: bold;
 }
 
 .rating {
@@ -119,4 +85,151 @@ body.brown-mode .card-header {
 
 .rating:hover > input:checked ~ label:before {
   opacity: 0.4;
+}
+
+.review {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #9FC0CB;
+  color: #05172F;
+}
+
+.review h3 {
+  margin-top: 0;
+}
+
+.review span {
+  display: block;
+  margin: 5px 0;
+}
+
+.review .delete-form {
+  margin-top: 10px;
+}
+
+.comment {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.comment h4 {
+  margin-top: 0;
+}
+
+.comment-form {
+  margin-top: 20px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-form button {
+  display: block;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 3px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.btn:active {
+  background-color: #004499;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Brown Theme Styles */
+body.brown-mode {
+  background-color: #5A3E36;
+  color: #f0e6d2;
+}
+
+body.brown-mode header, body.brown-mode footer {
+  background-color: #8B5E3C;
+  color: #f0e6d2;
+}
+
+body.brown-mode .container {
+  background-color: #8B5E3C;
+}
+
+body.brown-mode p, 
+body.brown-mode h1, 
+body.brown-mode h2, 
+body.brown-mode h3, 
+body.brown-mode h4, 
+body.brown-mode h5, 
+body.brown-mode h6, 
+body.brown-mode a {
+  color: #f0e6d2;
+}
+
+body.brown-mode .navbar, 
+body.brown-mode .navbar-brand, 
+body.brown-mode .nav-link, 
+body.brown-mode .btn {
+  color: #f0e6d2;
+}
+
+body.brown-mode .review {
+  border: 1px solid #7f5344;
+  background-color: #5d4037;
+}
+
+body.brown-mode .comment {
+  border-top: 1px solid #7f5344;
+}
+
+body.brown-mode .btn {
+  background-color: #a1887f;
+}
+
+body.brown-mode .btn:hover {
+  background-color: #8d6e63;
+}
+
+body.brown-mode .btn-danger {
+  background-color: #d32f2f;
+}
+
+body.brown-mode .btn-danger:hover {
+  background-color: #b71c1c;
+}
+
+body.brown-mode .btn-secondary {
+  background-color: #8B5E3C;
+  border-color: #8B5E3C;
+  color: #f0e6d2;
+}
+
+body.brown-mode .card {
+  color: #f0e6d2;
+  background-color: #8B5E3C;
+  border-color: #f0e6d2;
+}
+
+body.brown-mode .card-header {
+  background-color: #5A3E36;
+  border-bottom: 1px solid #f0e6d2;
 }
