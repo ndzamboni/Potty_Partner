@@ -26,12 +26,20 @@ exports.getCommentsByReviewId = async (req, res) => {
   try {
     const { reviewId } = req.params;
 
+    const review = await Review.findByPk(reviewId, {
+      include: [{ model: Users, attributes: ['username'] }]
+    });
+
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
     const comments = await Comment.findAll({
       where: { review_id: reviewId },
       include: [{ model: Users, attributes: ['username'] }]
     });
 
-    res.render('comments/list', { comments, reviewId, user: req.user });
+    res.render('comments/list', { reviewId, comments, user: req.user });
   } catch (error) {
     console.error('Error fetching comments:', error);
     return res.status(500).json({ message: 'Server error' });
@@ -51,8 +59,10 @@ exports.deleteComment = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
+    const reviewId = comment.review_id;
     await comment.destroy();
-    return res.status(200).json({ message: 'Comment deleted successfully' });
+
+    return res.redirect(`/comments/${reviewId}`);
   } catch (error) {
     console.error('Error deleting comment:', error);
     return res.status(500).json({ message: 'Server error' });

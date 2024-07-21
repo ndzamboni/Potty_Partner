@@ -16,7 +16,8 @@ exports.createReview = async (req, res) => {
     }
 
     const newReview = await createNewReview(restroom.id, userId, rating, customerOnlyUse, comment);
-    return renderReviewResponse(res, restroom, [newReview], req.user, true);
+    // Redirect to the restroom review page after creating the review
+    return res.redirect(`/reviews/${restroom.id}`);
   } catch (error) {
     console.error('Error creating review:', error);
     return res.status(500).json({ message: 'Server error' });
