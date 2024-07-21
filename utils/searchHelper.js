@@ -3,61 +3,52 @@ require('dotenv').config();
 
 const client = new Client({});
 
-async function searchPlaceByQuery(placeQuery) {
+async function searchPlaceByQuery(placeQuery, location = null) {
+  try {
+    let params = {
+      key: process.env.GOOGLE_PLACES_API_KEY,
+      type: 'establishment',
+      region: 'us',
+    };
 
-    try {
-      const response = await client.textSearch({
-        params: {
-          query: placeQuery + " restroom",
-          key: process.env.GOOGLE_PLACES_API_KEY,
-          // pagetoken: nextPageToken,
-          type: 'establishment',
-          region: 'us',
-        },
-        timeout: 1000, // milliseconds
-      });
-
-      return response.data.results.slice(0, 10);
-    
-    } catch (error) {
-      console.error("Error making Places API call:", error);
-      throw error;
+    if (placeQuery) {
+      params.query = placeQuery + " restroom";
+    } else if (location) {
+      params.location = location;
+      params.radius = 5000; // 5 km radius for nearby search
+    } else {
+      throw new Error("Either placeQuery or location must be provided");
     }
-  } 
 
-// async function searchPlaceByQuery(placeQuery) {
-//   let results = [];
-//   let nextPageToken = null;
+    const response = await client.textSearch({
+      params: params,
+      timeout: 1000, // milliseconds
+    });
 
-//   do {
-//     try {
-//       const response = await client.textSearch({
-//         params: {
-//           query: placeQuery + " restroom",
-//           key: process.env.GOOGLE_PLACES_API_KEY,
-//           pagetoken: nextPageToken,
-//           type: 'establishment',
-//           region: 'us',
-//         },
-//         timeout: 1000, // milliseconds
-//       });
+    return response.data.results.slice(0, 10);
+  } catch (error) {
+    console.error("Error making Places API call:", error);
+    throw error;
+  }
+}
 
-//       results = results.concat(response.data.results);
-//       nextPageToken = response.data.next_page_token;
+async function searchNearbyPlaces(lat, lon) {
+  try {
+    const response = await client.placesNearby({
+      params: {
+        location: { lat, lng: lon },
+        radius: 5000, // 5 km radius
+        type: 'establishment',
+        key: process.env.GOOGLE_PLACES_API_KEY,
+      },
+      timeout: 1000, // milliseconds
+    });
 
-//       // Wait for a short period before making the next request
-//       if (nextPageToken) {
-//         await new Promise(resolve => setTimeout(resolve, 2000));
-//       }
+    return response.data.results.slice(0, 10);
+  } catch (error) {
+    console.error("Error making Places API call:", error);
+    throw error;
+  }
+}
 
-//     } catch (error) {
-//       console.error("Error making Places API call:", error);
-//       throw error;
-//     }
-//   } while (nextPageToken);
-
-//   return results;
-// }
-
-
-module.exports = { searchPlaceByQuery};
+module.exports = { searchPlaceByQuery, searchNearbyPlaces };

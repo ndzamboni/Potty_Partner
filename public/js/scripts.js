@@ -17,3 +17,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   });
   
+
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('search-form');
+  const locationInput = document.getElementById('location-input');
+
+  form.addEventListener('submit', function (event) {
+    if (!locationInput.value) {
+      event.preventDefault(); // Prevent form submission
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            // Submit the form with the detected location
+            window.location.href = `/restrooms/searchResults?location=${latitude},${longitude}`;
+          },
+          function (error) {
+            alert('Unable to detect location. Please enter a search location.');
+          }
+        );
+      } else {
+        alert('Geolocation is not supported by your browser. Please enter a search location.');
+      }
+    }
+  });
+});
