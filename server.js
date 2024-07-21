@@ -8,6 +8,7 @@ const restroomRoutes = require('./routes/restroomRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+const favoriteRoutes = require('./routes/favoriteRoutes');
 const homeRoutes = require('./routes/homeRoutes');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -66,6 +67,7 @@ app.use('/restrooms', restroomRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/users', userRoutes);
 app.use('/comments', commentRoutes);
+app.use('/favorites', favoriteRoutes);
 app.use('/', homeRoutes);
 
 // Home route

@@ -1,8 +1,9 @@
-const { Comment, Users, Review } = require('../models');
+const { Comment, Users, Review, Restroom } = require('../models');
 
 exports.createComment = async (req, res) => {
   try {
     const { reviewId, userId, content } = req.body;
+
 
     const newComment = await Comment.create({
       review_id: reviewId,
@@ -27,7 +28,7 @@ exports.getCommentsByReviewId = async (req, res) => {
     const { reviewId } = req.params;
 
     const review = await Review.findByPk(reviewId, {
-      include: [{ model: Users, attributes: ['username'] }]
+      include: [{ model: Users, attributes: ['username'] }, { model: Restroom }]
     });
 
     if (!review) {

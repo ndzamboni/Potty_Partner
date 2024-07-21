@@ -3,6 +3,7 @@ const Users = require('./Users');
 const Review = require('./Review');
 const Restroom = require('./Restroom');
 const Comment = require('./Comment');
+const Favorite = require('./Favorites');
 
 // const Reaction = require('./Reaction');
 // const Photo = require('./Photo');
@@ -26,6 +27,10 @@ Comment.belongsTo(Review, { foreignKey: 'review_id' });
 // A User can have many Comments
 Users.hasMany(Comment, { foreignKey: 'user_id' });
 Comment.belongsTo(Users, { foreignKey: 'user_id' });
+
+// A User can have many Favorites
+Users.belongsToMany(Restroom, { through: Favorite, foreignKey: 'user_id' });
+Restroom.belongsToMany(Users, { through: Favorite, foreignKey: 'restroom_id' });
 
 // A Review can have many Reactions
 // Review.hasMany(Reaction, { foreignKey: 'review_id' });
@@ -55,4 +60,5 @@ module.exports = {
   Restroom,
   Comment,
   sequelize,
+  Favorite
 };
