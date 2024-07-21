@@ -46,8 +46,12 @@ const createNewReview = async (restroomId, userId, rating, customerOnlyUse, comm
   });
 };
 
-const renderReviewResponse = (res, restroom, reviews, user, userHasReviewed, poopEmojis) => {
-  res.render('reviews/list', { searchResult: restroom, reviews, user, userHasReviewed, poopEmojis });
+const renderReviewResponse = (res, restroom, reviews, user, userHasReviewed) => {
+  res.render('reviews/list', { searchResult: restroom, reviews, user, userHasReviewed });
+};
+
+const convertToPoopEmojis = (rating) => {
+  return '💩'.repeat(Math.round(rating));
 };
 
 exports.getReviewsAndInfoById = async (req, res) => {
@@ -65,13 +69,14 @@ exports.getReviewsAndInfoById = async (req, res) => {
     // Fetch comments for each review
     for (let review of reviews) {
       review.comments = await fetchCommentsByReviewId(review.id);
+      // Convert each rating to poop emojis
+      review.cleanliness = convertToPoopEmojis(review.cleanliness);
+      review.accessibility = convertToPoopEmojis(review.accessibility);
+      review.privacy_security = convertToPoopEmojis(review.privacy_security);
+      review.convenience = convertToPoopEmojis(review.convenience);
     }
 
-    // Calculate average rating and convert to poop emojis
-    const averageRating = calculateAverageRating(reviews);
-    const poopEmojis = convertToPoopEmojis(averageRating);
-
-    return renderReviewResponse(res, restroom, reviews, req.user, userHasReviewed, poopEmojis);
+    return renderReviewResponse(res, restroom, reviews, req.user, userHasReviewed);
   } catch (error) {
     console.error('Error fetching reviews:', error.message, error.stack);
     return res.status(500).json({ message: 'Server error', error: error.message });
@@ -135,13 +140,4 @@ const isUserAuthorizedToDelete = (review, user) => {
 const deleteReviewById = async (reviewId) => {
   const review = await Review.findByPk(reviewId);
   return await review.destroy();
-};
-
-const calculateAverageRating = (reviews) => {
-  const total = reviews.reduce((acc, review) => acc + (review.cleanliness + review.accessibility + review.privacy_security + review.convenience) / 4, 0);
-  return total / reviews.length;
-};
-
-const convertToPoopEmojis = (averageRating) => {
-  return '💩'.repeat(Math.round(averageRating));
 };
