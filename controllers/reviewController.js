@@ -46,8 +46,13 @@ const createNewReview = async (restroomId, userId, rating, customerOnlyUse, comm
   });
 };
 
-const renderReviewResponse = (res, restroom, reviews, user, userHasReviewed) => {
-  res.render('reviews/list', { searchResult: restroom, reviews, user, userHasReviewed });
+const renderReviewResponse = (res, restroom, reviews, user, userHasReviewed, poopEmojis) => {
+  res.render('reviews/list', { searchResult: restroom, reviews, user, userHasReviewed, poopEmojis });
+};
+
+const calculateAverageRating = (reviews) => {
+  const total = reviews.reduce((acc, review) => acc + (review.cleanliness + review.accessibility + review.privacy_security + review.convenience) / 4, 0);
+  return total / reviews.length;
 };
 
 const convertToPoopEmojis = (rating) => {
@@ -66,17 +71,20 @@ exports.getReviewsAndInfoById = async (req, res) => {
     const reviews = await fetchReviewsByRestroomId(id);
     const userHasReviewed = determineIfUserHasReviewed(reviews, req.user);
 
-    // Fetch comments for each review
+    // Calculate average rating and convert to poop emojis
+    const averageRating = calculateAverageRating(reviews);
+    const poopEmojis = convertToPoopEmojis(averageRating);
+
+    // Fetch comments for each review and convert ratings to poop emojis
     for (let review of reviews) {
       review.comments = await fetchCommentsByReviewId(review.id);
-      // Convert each rating to poop emojis
       review.cleanliness = convertToPoopEmojis(review.cleanliness);
       review.accessibility = convertToPoopEmojis(review.accessibility);
       review.privacy_security = convertToPoopEmojis(review.privacy_security);
       review.convenience = convertToPoopEmojis(review.convenience);
     }
 
-    return renderReviewResponse(res, restroom, reviews, req.user, userHasReviewed);
+    return renderReviewResponse(res, restroom, reviews, req.user, userHasReviewed, poopEmojis);
   } catch (error) {
     console.error('Error fetching reviews:', error.message, error.stack);
     return res.status(500).json({ message: 'Server error', error: error.message });
