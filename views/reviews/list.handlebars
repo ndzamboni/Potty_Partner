@@ -5,10 +5,10 @@
   <p>{{searchResult.address}}</p>
 
   <h2>Reviews</h2>
-  <ul class="list-unstyled">
+  <ul class="list-unstyled" id="reviews-list">
     {{#each reviews}}
-    <li>
-      <h3>Review by <strong>{{this.user.username}}</strong></h3>
+    <li id="review-{{this.id}}">
+      <h3>Review by: <strong>{{this.user.username}}</strong></h3>
       <span><strong>Cleanliness:</strong> {{this.cleanliness}}</span>
       <span><strong>Accessibility:</strong> {{this.accessibility}}</span>
       <span><strong>Privacy & Security:</strong> {{this.privacy_security}}</span>
@@ -16,9 +16,13 @@
       <span><strong>Customer Only Use:</strong> {{#if this.customer_only_use}}Yes{{else}}No{{/if}}</span>
       <span><strong>Comment:</strong> {{this.content}}</span>
       
+      <p>
+        <a href="/comments/{{this.id}}">View Comments ({{this.comments.length}})</a>
+      </p>
+      
       {{#if ../user}}
         {{#ifEquals this.user_id ../user.id}}
-          <form action="/reviews/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
+          <form action="/reviews/{{this.id}}?_method=DELETE" method="POST" class="delete-review-form" data-review-id="{{this.id}}">
             <button type="submit" class="btn btn-danger float-right">Delete Review</button>
           </form>
         {{/ifEquals}}
@@ -27,93 +31,77 @@
     {{/each}}
   </ul>
 
-  <h2>Comments</h2>
-  <ul class="list-unstyled">
-    {{#each comments}}
-    <li>
-      {{this.content}} - <strong>{{this.User.username}}</strong>
-      {{#if ../user}}
-        {{#ifEquals this.user_id ../user.id}}
-          <form action="/comments/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
-            <button type="submit" class="btn btn-danger float-right">Delete Comment</button>
+  <h2>Leave a Review</h2>
+  {{#if userHasReviewed}}
+    <p>You have already reviewed this restroom.</p>
+  {{else}}
+    <button class="btn btn-primary" id="show-review-form" data-toggle="modal" data-target="#reviewModal">Leave a Review</button>
+  {{/if}}
+
+  <!-- Review Modal -->
+  <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="reviewModalLabel">Leave a Review</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-dark">
+          <form action="/reviews" method="POST">
+            <input type="hidden" name="placeId" value="{{searchResult.place_id}}">
+            <div class="form-group">
+              <label for="rating-cleanliness">Cleanliness</label>
+              <div class="rating">
+                <input type="radio" name="rating[cleanliness]" id="cleanliness-5" value="5"><label for="cleanliness-5"></label>
+                <input type="radio" name="rating[cleanliness]" id="cleanliness-4" value="4"><label for="cleanliness-4"></label>
+                <input type="radio" name="rating[cleanliness]" id="cleanliness-3" value="3"><label for="cleanliness-3"></label>
+                <input type="radio" name="rating[cleanliness]" id="cleanliness-2" value="2"><label for="cleanliness-2"></label>
+                <input type="radio" name="rating[cleanliness]" id="cleanliness-1" value="1"><label for="cleanliness-1"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="rating-accessibility">Accessibility</label>
+              <div class="rating">
+                <input type="radio" name="rating[accessibility]" id="accessibility-5" value="5"><label for="accessibility-5"></label>
+                <input type="radio" name="rating[accessibility]" id="accessibility-4" value="4"><label for="accessibility-4"></label>
+                <input type="radio" name="rating[accessibility]" id="accessibility-3" value="3"><label for="accessibility-3"></label>
+                <input type="radio" name="rating[accessibility]" id="accessibility-2" value="2"><label for="accessibility-2"></label>
+                <input type="radio" name="rating[accessibility]" id="accessibility-1" value="1"><label for="accessibility-1"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="rating-privacy_security">Privacy & Security</label>
+              <div class="rating">
+                <input type="radio" name="rating[privacy_security]" id="privacy_security-5" value="5"><label for="privacy_security-5"></label>
+                <input type="radio" name="rating[privacy_security]" id="privacy_security-4" value="4"><label for="privacy_security-4"></label>
+                <input type="radio" name="rating[privacy_security]" id="privacy_security-3" value="3"><label for="privacy_security-3"></label>
+                <input type="radio" name="rating[privacy_security]" id="privacy_security-2" value="2"><label for="privacy_security-2"></label>
+                <input type="radio" name="rating[privacy_security]" id="privacy_security-1" value="1"><label for="privacy_security-1"></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="rating-convenience">Convenience</label>
+              <div class="rating">
+                <input type="radio" name="rating[convenience]" id="convenience-5" value="5"><label for="convenience-5"></label>
+                <input type="radio" name="rating[convenience]" id="convenience-4" value="4"><label for="convenience-4"></label>
+                <input type="radio" name="rating[convenience]" id="convenience-3" value="3"><label for="convenience-3"></label>
+                <input type="radio" name="rating[convenience]" id="convenience-2" value="2"><label for="convenience-2"></label>
+                <input type="radio" name="rating[convenience]" id="convenience-1" value="1"><label for="convenience-1"></label>
+              </div>
+            </div>
+            <div class="form-group form-check">
+              <input type="checkbox" name="rating[customer_only_use]" id="rating-customer_only_use" class="form-check-input">
+              <label class="form-check-label" for="rating-customer_only_use">Customer Only Use</label>
+            </div>
+            <div class="form-group">
+              <label for="comment">Comment</label>
+              <textarea name="comment" id="comment" rows="4" class="form-control text-dark"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary ml-auto">Submit Review</button>
           </form>
-        {{/ifEquals}}
-      {{/if}}
-    </li>
-    {{/each}}
-  </ul>
-</div>
-
-<h2>Leave a Review</h2>
-{{#if userHasReviewed}}
-  <p>You have already reviewed this restroom.</p>
-{{else}}
-  <button class="btn btn-primary" id="show-review-form" data-toggle="modal" data-target="#reviewModal">Leave a Review</button>
-{{/if}}
-
-<!-- Review Modal -->
-<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-dark" id="reviewModalLabel">Leave a Review</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-dark">
-        <form action="/reviews/{{searchResults.place_id}}" method="POST">
-          <input type="hidden" name="placeId" value="{{searchResult.place_id}}">
-          <div class="form-group">
-            <label for="rating-cleanliness">Cleanliness</label>
-            <div class="rating">
-              <input type="radio" name="rating[cleanliness]" id="cleanliness-5" value="5"><label for="cleanliness-5"></label>
-              <input type="radio" name="rating[cleanliness]" id="cleanliness-4" value="4"><label for="cleanliness-4"></label>
-              <input type="radio" name="rating[cleanliness]" id="cleanliness-3" value="3"><label for="cleanliness-3"></label>
-              <input type="radio" name="rating[cleanliness]" id="cleanliness-2" value="2"><label for="cleanliness-2"></label>
-              <input type="radio" name="rating[cleanliness]" id="cleanliness-1" value="1"><label for="cleanliness-1"></label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="rating-accessibility">Accessibility</label>
-            <div class="rating">
-              <input type="radio" name="rating[accessibility]" id="accessibility-5" value="5"><label for="accessibility-5"></label>
-              <input type="radio" name="rating[accessibility]" id="accessibility-4" value="4"><label for="accessibility-4"></label>
-              <input type="radio" name="rating[accessibility]" id="accessibility-3" value="3"><label for="accessibility-3"></label>
-              <input type="radio" name="rating[accessibility]" id="accessibility-2" value="2"><label for="accessibility-2"></label>
-              <input type="radio" name="rating[accessibility]" id="accessibility-1" value="1"><label for="accessibility-1"></label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="rating-privacy_security">Privacy & Security</label>
-            <div class="rating">
-              <input type="radio" name="rating[privacy_security]" id="privacy_security-5" value="5"><label for="privacy_security-5"></label>
-              <input type="radio" name="rating[privacy_security]" id="privacy_security-4" value="4"><label for="privacy_security-4"></label>
-              <input type="radio" name="rating[privacy_security]" id="privacy_security-3" value="3"><label for="privacy_security-3"></label>
-              <input type="radio" name="rating[privacy_security]" id="privacy_security-2" value="2"><label for="privacy_security-2"></label>
-              <input type="radio" name="rating[privacy_security]" id="privacy_security-1" value="1"><label for="privacy_security-1"></label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="rating-convenience">Convenience</label>
-            <div class="rating">
-              <input type="radio" name="rating[convenience]" id="convenience-5" value="5"><label for="convenience-5"></label>
-              <input type="radio" name="rating[convenience]" id="convenience-4" value="4"><label for="convenience-4"></label>
-              <input type="radio" name="rating[convenience]" id="convenience-3" value="3"><label for="convenience-3"></label>
-              <input type="radio" name="rating[convenience]" id="convenience-2" value="2"><label for="convenience-2"></label>
-              <input type="radio" name="rating[convenience]" id="convenience-1" value="1"><label for="convenience-1"></label>
-            </div>
-          </div>
-          <div class="form-group form-check">
-            <input type="checkbox" name="rating[customer_only_use]" id="rating-customer_only_use" class="form-check-input">
-            <label class="form-check-label" for="rating-customer_only_use">Customer Only Use</label>
-          </div>
-          <div class="form-group">
-            <label for="comment">Comment</label>
-            <textarea name="comment" id="comment" rows="4" class="form-control text-dark"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary ml-auto">Submit Review</button>
-        </form>
+        </div>
       </div>
     </div>
   </div>
@@ -124,15 +112,26 @@
     $('#show-review-form').on('click', function() {
       $('#reviewModal').modal('show');
     });
+
+    // AJAX for deleting review
+    $('.delete-review-form').on('submit', function(e) {
+      e.preventDefault();
+      const reviewId = $(this).data('review-id');
+      const $reviewElement = $(`#review-${reviewId}`);
+
+      $.ajax({
+        url: `/reviews/${reviewId}`,
+        type: 'DELETE',
+        success: function(result) {
+          // Remove review element from the DOM
+          $reviewElement.remove();
+        },
+        error: function(xhr, status, error) {
+          console.error('Error deleting review:', error);
+        }
+      });
+    });
   });
 </script>
-
-{{!-- <script> document.getElementById('search-form').addEventListener('submit', function(event) { event.preventDefault(); const formData = new FormData(this); const data = {}; formData.forEach((value, key) => { data[key] = value; }); console.log('Form Data:', data); this.submit(); }); </script> --}}
-
-
-
-
-
-
 
 {{> footer}}

@@ -10,8 +10,7 @@ exports.createComment = async (req, res) => {
       content: content,
     });
 
-    return res.render('reviews/list', { comments: [newComment], user: req.user });
-    // return res.status(201).json({ message: 'Comment created successfully', comment: newComment });
+    return res.redirect(`/comments/${reviewId}`);
   } catch (error) {
     console.error('Error creating comment:', error);
     return res.status(500).json({ message: 'Server error' });
@@ -32,7 +31,7 @@ exports.getCommentsByReviewId = async (req, res) => {
       include: [{ model: Users, attributes: ['username'] }]
     });
 
-    res.render('comments/list', { comments, user: req.user });
+    res.render('comments/list', { comments, reviewId, user: req.user });
   } catch (error) {
     console.error('Error fetching comments:', error);
     return res.status(500).json({ message: 'Server error' });

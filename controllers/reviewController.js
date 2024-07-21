@@ -1,5 +1,4 @@
-// const { Review, Users, Restroom, Comment } = require('../models');
-const { Review, Users, Restroom } = require('../models');
+const { Review, Users, Restroom, Comment } = require('../models');
 const { getOrCreateRestroom } = require('../utils/getOrCreateRestroom');
 
 exports.createReview = async (req, res) => {
@@ -62,6 +61,11 @@ exports.getReviewsAndInfoById = async (req, res) => {
     const reviews = await fetchReviewsByRestroomId(id);
     const userHasReviewed = determineIfUserHasReviewed(reviews, req.user);
 
+    // Fetch comments for each review
+    for (let review of reviews) {
+      review.comments = await fetchCommentsByReviewId(review.id);
+    }
+
     return renderReviewResponse(res, restroom, reviews, req.user, userHasReviewed);
   } catch (error) {
     console.error('Error fetching reviews:', error.message, error.stack);
@@ -76,6 +80,13 @@ const fetchRestroomById = async (id) => {
 const fetchReviewsByRestroomId = async (restroomId) => {
   return await Review.findAll({
     where: { restroom_id: restroomId },
+    include: [{ model: Users, attributes: ['username'] }]
+  });
+};
+
+const fetchCommentsByReviewId = async (reviewId) => {
+  return await Comment.findAll({
+    where: { review_id: reviewId },
     include: [{ model: Users, attributes: ['username'] }]
   });
 };
@@ -101,12 +112,13 @@ exports.deleteReview = async (req, res) => {
     }
 
     await deleteReviewById(reviewId);
-    return res.status(200).json({ message: 'Review deleted successfully' });
+    return res.redirect('back'); // Redirect to the previous page
   } catch (error) {
     console.error('Error deleting review:', error);
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 const findReviewById = async (reviewId) => {
   return await Review.findByPk(reviewId);

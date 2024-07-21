@@ -8,7 +8,7 @@ const restroomRoutes = require('./routes/restroomRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const userRoutes = require('./routes/userRoutes');
 const commentRoutes = require('./routes/commentRoutes');
-const homeRoutes = require('./routes/homeRoutes'); 
+const homeRoutes = require('./routes/homeRoutes');
 const path = require('path');
 const dotenv = require('dotenv');
 const { engine } = require('express-handlebars');
@@ -29,6 +29,8 @@ app.use((req, res, next) => {
 // Middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Method Override Middleware
 app.use(methodOverride('_method'));
 
 app.use(session({
