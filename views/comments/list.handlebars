@@ -1,13 +1,33 @@
-{{#each comments}}
-  <li>
-    {{this.content}} - <strong>{{this.User.username}}</strong>
-    {{#if ../user}}
-      {{#ifEquals this.user_id ../user.id}}
-        <form action="/comments/{{this.id}}" method="POST" class="delete-form">
-          <input type="hidden" name="_method" value="DELETE">
-          <button type="submit">Delete Comment</button>
-        </form>
-      {{/ifEquals}}
-    {{/if}}
-  </li>
-{{/each}}
+{{> header}}
+
+<div class="container mt-4">
+  <h1>Comments for Review</h1>
+
+  <ul class="list-unstyled">
+    {{#each comments}}
+      <li>
+        <strong>{{this.User.username}}:</strong> {{this.content}}
+        {{#if ../user}}
+          {{#ifEquals this.user_id ../user.id}}
+            <form action="/comments/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
+              <button type="submit" class="btn btn-danger float-right">Delete Comment</button>
+            </form>
+          {{/ifEquals}}
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+
+  <h2>Leave a Comment</h2>
+  <form action="/comments" method="POST">
+    <input type="hidden" name="reviewId" value="{{reviewId}}">
+    <input type="hidden" name="userId" value="{{user.id}}">
+    <div class="form-group">
+      <label for="content">Comment</label>
+      <textarea name="content" id="content" rows="4" class="form-control text-dark"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Comment</button>
+  </form>
+</div>
+
+{{> footer}}
