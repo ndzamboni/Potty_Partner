@@ -3,6 +3,7 @@ const { Comment, Users, Review, Restroom } = require('../models');
 exports.createComment = async (req, res) => {
   try {
     const { reviewId, userId, content } = req.body;
+    console.log('req.body===>>>', req.body);
 
 
     const newComment = await Comment.create({
@@ -28,7 +29,10 @@ exports.getCommentsByReviewId = async (req, res) => {
     const { reviewId } = req.params;
 
     const review = await Review.findByPk(reviewId, {
-      include: [{ model: Users, attributes: ['username'] }, { model: Restroom }]
+      include: [
+        { model: Users, attributes: ['username'] },
+        { model: Restroom }
+      ]
     });
 
     if (!review) {
@@ -40,7 +44,10 @@ exports.getCommentsByReviewId = async (req, res) => {
       include: [{ model: Users, attributes: ['username'] }]
     });
 
-    res.render('comments/list', { reviewId, comments, user: req.user });
+    const reviewData = review.get({ plain: true });
+    const commentsData = comments.map(comment => comment.get({ plain: true }));
+
+    res.render('comments/list', { review: reviewData, comments: commentsData, user: req.user });
   } catch (error) {
     console.error('Error fetching comments:', error);
     return res.status(500).json({ message: 'Server error' });

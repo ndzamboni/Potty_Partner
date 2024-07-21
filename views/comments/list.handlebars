@@ -14,7 +14,7 @@
   <ul class="list-unstyled">
     {{#each comments}}
       <li class="comment">
-        <strong>{{this.User.username}}:</strong> {{this.content}}
+        <strong>{{this.user.username}}:</strong> {{this.content}}
         {{#if ../user}}
           {{#ifEquals this.user_id ../user.id}}
             <form action="/comments/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
@@ -27,8 +27,8 @@
   </ul>
 
   <h2>Leave a Comment</h2>
-  <form action="/comments" method="POST" class="comment-form">
-    <input type="hidden" name="reviewId" value="{{reviewId}}">
+  <form action="/comments/{{this.id}}" method="POST" class="comment-form">
+    <input type="hidden" name="reviewId" value="{{review.id}}">
     <input type="hidden" name="userId" value="{{user.id}}">
     <div class="form-group">
       <label for="content">Comment</label>
