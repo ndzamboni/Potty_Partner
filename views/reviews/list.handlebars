@@ -23,8 +23,12 @@
       {{#if ../user}}
         {{#ifEquals this.user_id ../user.id}}
           <form action="/reviews/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
-            <button type="submit" class="btn btn-danger float-right">Delete Review</button>
-          </form>
+            <div class="row">
+              <div class="col-12 text-center">
+            <button type="submit" class="btn btn-danger">Delete Review</button>
+            </div>
+          </div>
+        </form
         {{/ifEquals}}
       {{/if}}
     </li>
