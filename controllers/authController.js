@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
   };
 
 // Log in a user
-exports.login = (req, res, next) => {
+/* exports.login = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             console.error('Authentication error: ', err);
@@ -43,6 +43,27 @@ exports.login = (req, res, next) => {
             console.log('User logged in:', user.username);
             return res.redirect('/users/profile');
         });        
+    })(req, res, next);
+}; */
+
+exports.login = (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            console.error('Authentication error: ', err);
+            return next(err);
+        }
+        if (!user) {
+            console.log('Authentication failed: ', info.message);
+            return res.redirect(`/auth/login?error=${encodeURIComponent('Incorrect username or password')}`);
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                console.error('Login error: ', err);
+                return next(err);
+            }
+            console.log('User logged in:', user.username);
+            return res.redirect('/users/profile');
+        });
     })(req, res, next);
 };
 
