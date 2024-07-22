@@ -11,6 +11,10 @@ exports.createReview = async (req, res) => {
     const userId = req.user.id;
     const customerOnlyUse = req.body.rating.customer_only_use === 'on';
 
+    if (!rating.cleanliness || !rating.accessibility || !rating.privacy_security || !rating.convenience) {
+      return res.status(400).json({ message: 'All rating fields are required.' });
+    }
+
     const restroom = await getOrCreateRestroom(placeId);
 
     const existingReview = await checkExistingReview(restroom.id, userId);
