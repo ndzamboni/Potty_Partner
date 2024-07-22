@@ -3,6 +3,18 @@
 <div class="container mt-4">
   <h1 class="text-center"> {{searchResult.name}}: {{poopEmojis}}</h1>
   <p>{{searchResult.address}}</p>
+  
+  <!-- Map Section -->
+  <div class="text-center mb-4">
+    <iframe
+      src="https://www.google.com/maps/embed/v1/place?key={{API_KEY}}&q=place_id:{{searchResult.place_id}}"
+      width="600"
+      height="450"
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy">
+    </iframe>
+  </div>
 
   <h2>Reviews</h2>
   <ul class="list-unstyled">
