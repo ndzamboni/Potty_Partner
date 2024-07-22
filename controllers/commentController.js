@@ -47,7 +47,7 @@ exports.getCommentsByReviewId = async (req, res) => {
     const reviewData = review.get({ plain: true });
     const commentsData = comments.map(comment => comment.get({ plain: true }));
 
-    res.render('comments/comments', { review: reviewData, comments: commentsData, user: req.user });
+    res.render('comments/list', { review: reviewData, comments: commentsData, user: req.user });
   } catch (error) {
     console.error('Error fetching comments:', error);
     return res.status(500).json({ message: 'Server error' });

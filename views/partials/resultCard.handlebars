@@ -1,17 +1,19 @@
 <div class="col-md-4 mb-4">
   <div class="card h-100">
     <div class="card-header">
-      {{#if this.icon}}
-        <img class="card-img-top" src="{{this.icon}}" alt="Icon" style="width: 60px; height: 60px;">
-      {{else}}
-        <img class="card-img-top rounded-circle" src="/images/pp.webp" alt="Icon" style="width: 60px; height: 60px;">
-      {{/if}}
+    {{#if this.icon}}
+      <img class="card-img-top" src="{{this.icon}}" alt="Icon" style="width: 60px; height: 60px;">
+    {{else}}
+      <img class="card-img-top rounded-circle" src="/images/pp.webp" alt="Icon" style="width: 60px; height: 60px;">
+    {{/if}}
     </div>
     <div class="card-body">
       <h5 class="card-title">
-        <a href="/reviews/{{this.id}}" class="details-link">{{this.name}}</a>
+          <a href="/reviews/{{this.id}}">{{this.name}}</a>       
       </h5>
-      <p class="card-text address">{{this.address}}</p>
+      <p class="card-text address">
+        {{this.address}}
+      </p>
       <p class="card-text">
         {{#if this.opening_hours}}
           <small class="text-muted">{{#if this.opening_hours.open_now}}Open Now{{else}}Closed{{/if}}</small>
