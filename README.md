@@ -1,4 +1,4 @@
-# Potty Partner
+# Potty Partner App
 
 Potty Partner is a web application designed to help users find bathrooms and leave reviews. Whether you’re traveling, in a new city, or just out and about, Potty Partner makes it easy to locate nearby restrooms and read user reviews to find the cleanest, most accessible options. This app aims to provide a community-driven resource for bathroom locations and conditions, ensuring that everyone has access to clean and safe facilities when they need them most.
 
