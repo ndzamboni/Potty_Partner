@@ -1,25 +1,14 @@
 {{> header}}
+
 <div class="container mt-4">
-  <h1 class="text-center">{{searchResult.name}}</h1>
+  <h1 class="text-center"> {{searchResult.name}}: {{poopEmojis}}</h1>
   <p>{{searchResult.address}}</p>
 
-<!-- Map Section -->
-  <div class="text-center mb-4">
-    <iframe
-      src="https://www.google.com/maps/embed/v1/place?key={{googleMapsAPIKey}}&q=place_id:{{searchResult.place_id}}"
-      width="600"
-      height="450"
-      style="border:0;"
-      allowfullscreen=""
-      loading="lazy">
-    </iframe>
-  </div>
-  
   <h2>Reviews</h2>
-  <ul class="list-unstyled" id="reviews-list">
+  <ul class="list-unstyled">
     {{#each reviews}}
-    <li id="review-{{this.id}}">
-      <h3>Review by: <strong>{{this.user.username}}</strong></h3>
+    <li class="review">
+      <h3>Review by <strong>{{this.user.username}}</strong></h3>
       <span><strong>Cleanliness:</strong> {{this.cleanliness}}</span>
       <span><strong>Accessibility:</strong> {{this.accessibility}}</span>
       <span><strong>Privacy & Security:</strong> {{this.privacy_security}}</span>
@@ -33,9 +22,13 @@
       
       {{#if ../user}}
         {{#ifEquals this.user_id ../user.id}}
-          <form action="/reviews/{{this.id}}?_method=DELETE" method="POST" class="delete-review-form" data-review-id="{{this.id}}">
-            <button type="submit" class="btn btn-danger float-right">Delete Review</button>
-          </form>
+          <form action="/reviews/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
+            <div class="row">
+              <div class="col-12 text-center">
+            <button type="submit" class="btn btn-danger">Delete Review</button>
+            </div>
+          </div>
+        </form
         {{/ifEquals}}
       {{/if}}
     </li>
@@ -60,7 +53,7 @@
           </button>
         </div>
         <div class="modal-body text-dark">
-          <form action="/reviews" method="POST">
+          <form action="/reviews/{{searchResults.place_id}}" method="POST">
             <input type="hidden" name="placeId" value="{{searchResult.place_id}}">
             <div class="form-group">
               <label for="rating-cleanliness">Cleanliness</label>
@@ -118,7 +111,31 @@
   </div>
 </div>
 
-<!-- Include the scripts.js file -->
-<script src="/js/scripts.js"></script>
+<script>
+  $(document).ready(function(){
+    $('#show-review-form').on('click', function() {
+      $('#reviewModal').modal('show');
+    });
+
+    // AJAX for deleting review
+    $('.delete-review-form').on('submit', function(e) {
+      e.preventDefault();
+      const reviewId = $(this).data('review-id');
+      const $reviewElement = $(`#review-${reviewId}`);
+
+      $.ajax({
+        url: `/reviews/${reviewId}`,
+        type: 'DELETE',
+        success: function(result) {
+          // Remove review element from the DOM
+          $reviewElement.remove();
+        },
+        error: function(xhr, status, error) {
+          console.error('Error deleting review:', error);
+        }
+      });
+    });
+  });
+</script>
 
 {{> footer}}
