@@ -1,5 +1,8 @@
 const { Review, Users, Restroom, Comment } = require('../models');
 const { getOrCreateRestroom } = require('../utils/getOrCreateRestroom');
+const dotenv = require('dotenv');
+dotenv.config();
+const googleMapsAPIKey = process.env.GOOGLE_PLACES_API_KEY;
 
 exports.createReview = async (req, res) => {
   console.log('req.body:', req.body);
@@ -47,7 +50,8 @@ const createNewReview = async (restroomId, userId, rating, customerOnlyUse, comm
 };
 
 const renderReviewResponse = (res, restroom, reviews, user, userHasReviewed, poopEmojis) => {
-  res.render('reviews/list', { searchResult: restroom, reviews, user, userHasReviewed, poopEmojis });
+  const API_KEY = googleMapsAPIKey
+  res.render('reviews/list', { searchResult: restroom, reviews, user, userHasReviewed, poopEmojis, API_KEY });
 };
 
 const calculateAverageRating = (reviews) => {
