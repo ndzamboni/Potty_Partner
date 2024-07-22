@@ -1,38 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Potty Partner - Login</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-  {{> header}}
+{{> header}}
 
-  <div class="container mt-4">
+<div class="container mt-4">
     {{#if message}}
-      <div class="alert alert-warning" role="alert">
-        {{message}}
-      </div>
+        <div class="alert alert-warning" role="alert">
+            {{message}}
+        </div>
     {{/if}}
 
-  <div class="container mt-4">
-    <form id="login-form" action="/auth/login" method="POST">
-      <h2>Login</h2>
-      <div class="form-group">
-        <label for="login-username">Username</label>
-        <input type="text" class="form-control" id="login-username" name="username" required>
-      </div>
-      <div class="form-group">
-        <label for="login-password">Password</label>
-        <input type="password" class="form-control" id="login-password" name="password" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Login</button>
-      <p>Don't have an account? <a href="/auth/register">Register here</a></p>
-    </form>
-  </div>
+    {{#if error}}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+    {{/if}}
 
-  {{> footer}}
-</body>
-</html>
+    <form id="login-form" action="/auth/login" method="POST">
+        <h2>Login</h2>
+        <div class="form-group">
+            <label for="login-username">Username</label>
+            <input type="text" class="form-control" id="login-username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" class="form-control" id="login-password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p>Don't have an account? <a href="/auth/register">Register here</a></p>
+    </form>
+</div>
+
+{{> footer}}

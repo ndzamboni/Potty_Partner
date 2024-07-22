@@ -35,10 +35,11 @@
     {{/each}}
   </ul>
 
-  <h2>Leave a Review</h2>
+ 
   {{#if userHasReviewed}}
     <p>You have already reviewed this restroom.</p>
   {{else}}
+   <h2>Leave a Review</h2>
     <button class="btn btn-primary" id="show-review-form" data-toggle="modal" data-target="#reviewModal">Leave a Review</button>
   {{/if}}
 
