@@ -6,6 +6,7 @@ dotenv.config();
 exports.getPlace = async (req, res) => {
   const placeQuery = req.query.q; // Assuming 'q' is passed as a query parameter
   const userLocation = req.query.location; // Assuming 'location' is passed as a query parameter
+  
   try {
     let placeData;
 
@@ -35,6 +36,7 @@ exports.getPlace = async (req, res) => {
             photos: place.photos,
             icon: place.icon,
             types: place.types,
+            map: place.place_id // Use place_id for the map field
           }
         });
         console.log(`Inserted/Found place: ${place.name}`);
@@ -46,11 +48,11 @@ exports.getPlace = async (req, res) => {
     // Fetch updated search results from the database
     const searchResults = await Restroom.findAll({
       where: { place_id: placeData.map(place => place.place_id) },
-      attributes: ['id', 'name', 'address', 'photos', 'icon', 'types'] // Ensure 'id' is included
+      attributes: ['id', 'name', 'address', 'photos', 'icon', 'types', 'map'] // Ensure 'id' is included
     });
 
     console.log(`Search results from DB: ${JSON.stringify(searchResults)}`);
-    res.render('home', { user: req.user, searchResults }); // Render home with results
+    res.render('home', { user: req.user, searchResults }); // Pass API key to the template
   } catch (error) {
     console.error('Error searching for place:', error);
     res.status(500).json({ error: 'An error occurred while searching for the place.' });

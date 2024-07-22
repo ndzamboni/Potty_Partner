@@ -26,11 +26,7 @@ Restroom.init({
     type: DataTypes.JSON,
     allowNull: true,
   },
-  map: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  icon: {
+ icon: {
     type: DataTypes.STRING,
     allowNull: true,
   },
