@@ -18,7 +18,7 @@
 
 <div class="container mt-4">
   <h2 class="text-center">Profile</h2>
-  <form id="profile-form" action="/profile/update" method="POST">
+  <form id="profile-form" action="/profile" method="GET"> <!-- action="/profile/update" method="POST" will need to be routed to an update function for the user's profile -->
     <div class="form-group">
       <label for="username">Username</label>
       <input type="text" class="form-control" id="username" name="username" value="{{user.username}}" readonly>
