@@ -2,6 +2,8 @@
 
 Potty Partner is a web application designed to help users find bathrooms and leave reviews. Whether you’re traveling, in a new city, or just out and about, Potty Partner makes it easy to locate nearby restrooms and read user reviews to find the cleanest, most accessible options. This app aims to provide a community-driven resource for bathroom locations and conditions, ensuring that everyone has access to clean and safe facilities when they need them most.
 
+## Link to Deployed App: https://potty-partner.onrender.com
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -124,3 +126,37 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Tristin Rohr [GitHub](https://github.com/TristinRohr)
 - Nicholas Zamboni [GitHub](https://github.com/ndzamboni)
 - Rob Wisniewski [GitHub](https://github.com/contra19)
+
+<!-- screenshot demo -->
+
+## Screenshots
+
+Here are some screenshots of the Potty Partner web application:
+
+![Landing Page](/demo/demo1.PNG)
+
+![Login Page](/demo/demo2.PNG)
+
+![Nav Bar](/demo/demo3.PNG)
+
+![Themed Toggle](/demo/demo4.PNG)
+
+![Profile Page](/demo/demo5.PNG)
+
+![Search Restrooms](/demo/demo6.PNG)
+
+![Restroom Page](/demo/demo7.PNG)
+
+![Review Restroom](/demo/demo8.PNG)
+
+![Generated Review](/demo/demo10.PNG)
+
+![Commenting](/demo/demo9.PNG)
+
+![About Us](/demo/demo11.PNG)
+
+
+
+
+Feel free to explore the application and see how it looks in action!
+
